@@ -54,7 +54,7 @@
                                     <tr>
                                         <td class="text-wrap">{{ $loop->iteration }}</td>
                                         <td class="text-wrap">{{ $prouct->name }}</td>
-                                        <td class="text-wrap">{!! $prouct->sort_description !!}</td>
+                                        <td class="text-wrap">{!! \Illuminate\Support\Str::words(strip_tags($prouct->sort_description), 10, '...') !!}</td>
                                         <td class="text-wrap">
                                             @if($prouct->product_type == 'attribute')
                                                 @foreach($prouct->variations as $pvariation)
