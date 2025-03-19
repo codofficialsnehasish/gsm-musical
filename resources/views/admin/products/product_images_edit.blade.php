@@ -37,7 +37,7 @@
                         <div class="card-body">
                             <!-- Nav tabs -->
                             @include('admin.products.nav-tabs-edit')
-                            <input type="hidden" name="id" value="{{ request()->segment(3) }}">
+                            <input type="hidden" name="id" value="{{ request()->segment(4) }}">
                             <!-- Tab panes -->
                             <div class="tab-content">
                                 <div class="tab-pane active p-3" id="pricedetails" role="tabpanel">
@@ -139,7 +139,7 @@
                 extraData: function(id) {
                     return {
                         "file_id": id,
-                        "product_id": "{{ request()->segment(3) }}",
+                        "product_id": "{{ request()->segment(4) }}",
                         "_token": "{{ csrf_token() }}"
                     };
                 },
@@ -179,7 +179,7 @@
                             url: "{{ route('products.get-product-temp-images') }}",
                             data: {
                                 "file_id": id,
-                                "product_id": "{{ request()->segment(3) }}",
+                                "product_id": "{{ request()->segment(4) }}",
                                 "_token": "{{ csrf_token() }}"
                             },
                             success: function(response) {
@@ -219,7 +219,7 @@
             if (confirm('Are you sure you want to delete this image?')) {
                 var a = {
                     "file_id": b,
-                    "product_id": "{{ request()->segment(3) }}",
+                    "product_id": "{{ request()->segment(4) }}",
                     "_token": "{{ csrf_token() }}"
                 };
                 $.ajax({
@@ -239,7 +239,7 @@
             var b = $(this).attr("data-file-id");
             var a = {
                 "file_id": b,
-                "product_id": "{{ request()->segment(3) }}",
+                "product_id": "{{ request()->segment(4) }}",
                 "_token": "{{ csrf_token() }}"
             };
             $(".badge-is-image-main").removeClass("btn-primary");

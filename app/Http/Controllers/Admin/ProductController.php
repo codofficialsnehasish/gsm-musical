@@ -127,7 +127,7 @@ class ProductController extends Controller implements HasMiddleware
     }
 
     public function price_edit(Request $request){
-        if(request()->segment(3) == ''){
+        if(request()->segment(4) == ''){
 			return redirect(route('products.basic-info-create'))->with(['error'=>'Please Fill Basic Information']);
 		}
         $product = Product::find($request->id);
@@ -155,7 +155,7 @@ class ProductController extends Controller implements HasMiddleware
     }
 
     public function inventory_edit(Request $request){
-        if(request()->segment(3) == ''){
+        if(request()->segment(4) == ''){
 			return redirect(route('products.basic-info-create'))->with(['error'=>'Please Fill Basic Information']);
 		}
         $data['title'] = 'Products';
@@ -180,7 +180,7 @@ class ProductController extends Controller implements HasMiddleware
     }
 
     public function product_images_edit(Request $request){
-        if(request()->segment(3) == ''){
+        if(request()->segment(4) == ''){
 			return redirect(route('products.basic-info-create'))->with('error','Please Fill Basic Information');
 		}
         $product = Product::find($request->id);
@@ -314,7 +314,7 @@ class ProductController extends Controller implements HasMiddleware
     }
 
     public function veriation_edit(Request $request){
-        if(request()->segment(3) == ''){
+        if(request()->segment(4) == ''){
 			return redirect(route('products.basic-info-create'))->with(['error'=>'Please Fill Basic Information']);
 		}
         $product = Product::with(['variations.options'])->find($request->id);

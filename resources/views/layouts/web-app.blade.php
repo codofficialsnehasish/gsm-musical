@@ -15,7 +15,7 @@
 	<link rel="stylesheet" href="{{ asset('assets/site-assets/css/venobox.css') }}" />
 	<link rel="stylesheet" href="{{ asset('assets/site-assets/css/font-awesome.css') }}" />
 	<link rel="stylesheet" href="{{ asset('assets/site-assets/css/bootstrap.min.css') }}" />	
-	<link rel="stylesheet" href="{{ asset('assets/site-assets/css/style.css') }}" />
+	<link rel="stylesheet" href="{{ asset('assets/site-assets/css/style2.css') }}" />
 	<link rel="stylesheet" href="{{ asset('assets/site-assets/css/responsive.css') }}" />	
 	<link rel="stylesheet" href="{{ asset('assets/site-assets/zoom/css/my-zoom.css') }}" />	
 

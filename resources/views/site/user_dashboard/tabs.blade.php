@@ -2,21 +2,21 @@
     <div class="card-header text-white text-center" style="background-color: rgb(0, 0, 0);">
         {{ auth()->user()->name }}
     </div>
-    <ul class="list-group list-group-flush">
-        <li class="list-group-item @if(request()->segment(2) == 'profile') active @endif">
-            <a href="{{ route('user-dashboard.profile') }}">
+    <div class="list-group list-group-flush">
+       
+            <a href="{{ route('user-dashboard.profile') }}" class="list-group-item @if(request()->segment(2) == 'profile') active @endif">
                 Profile
             </a>
-        </li>
-        <li class="list-group-item @if(request()->segment(2) == 'orders') active @endif">
-            <a href="{{ route('user-dashboard.orders') }}">
+     
+       
+            <a href="{{ route('user-dashboard.orders') }}" class="list-group-item @if(request()->segment(2) == 'orders') active @endif">
                 Orders
             </a>
-        </li>
-        <li class="list-group-item @if(request()->segment(2) == 'address') active @endif">
-            <a href="{{ route('user-dashboard.address') }}">
+      
+       
+            <a href="{{ route('user-dashboard.address') }}" class="list-group-item @if(request()->segment(2) == 'address') active @endif">
                 Address
             </a>
-        </li>
-    </ul>
+       
+    </div>
 </div>

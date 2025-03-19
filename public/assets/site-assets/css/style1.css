@@ -177,7 +177,7 @@ input:focus, textarea:focus {
     border-color: #33d286;
 }
 .section_padding{
-	padding:60px 0;
+	padding:30px 0;
 }
 
 
@@ -894,7 +894,7 @@ right: 0;
 #slider_area,
 .single_slide,
 .single-slide-item-table{
-	height: 700px;
+	height: 500px;
 }
 .single-slide-item-table {
     display: table;
@@ -1337,9 +1337,10 @@ right: 0;
     transition: .5s;
     border-radius: 10px;
     min-height: 486px;
+	box-shadow: 0px 0px 15px 5px #d7d4d4;
 }
 .single_product:hover{
-	box-shadow: 5px 5px 25px rgba(0,0,0,0.03);
+	box-shadow: 5px 5px 25px #d7d4d4;
 }
 .product_image{
 	overflow: hidden;

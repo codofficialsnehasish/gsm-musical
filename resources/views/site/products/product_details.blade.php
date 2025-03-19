@@ -205,7 +205,9 @@
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="single_product">
                         <div class="product_image">
-                            <img src="{{ getProductMainImage($relatedProduct->id) }}" alt=""/>
+                            <a href="{{ route('product.details',$relatedProduct->slug) }}">
+                                <img src="{{ getProductMainImage($relatedProduct->id) }}" alt=""/>
+                            </a>
                             <div class="box-content">
                                 <a href="javascript:void(0)" class="add-to-wishlist" data-product-id="{{ $relatedProduct->id }}"><i class="fa fa-heart-o"></i></a>
                                 {{-- <a href="javascript:void(0)" class="add-to-cart-btn" data-product-id="{{ $relatedProduct->id }}"><i class="fa fa-cart-plus"></i></a> --}}

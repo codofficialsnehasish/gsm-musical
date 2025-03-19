@@ -79,12 +79,13 @@
                 <div class="col-sm-6">
                     <div class="payment_mthd_icon text-right">
                         <ul>
-                            <li><i class="fa fa-cc-paypal"></i></li>
-                            <li><i class="fa fa-cc-visa"></i></li>
-                            <li><i class="fa fa-cc-discover"></i></li>
-                            <li><i class="fa fa-cc-mastercard"></i></li>
-                            <li><i class="fa fa-cc-amex"></i></li>
+                            <li><img src="{{ asset('assets/site-assets/img/icon/mobile-receipt-visa.jpg') }}" srcset="" alt="visa" ></li>
+                            <li><img src="{{ asset('assets/site-assets/img/icon/mobile-receipt-mastercard.jpg') }}" srcset="" alt="mastercard"></li>
+                            <li><img src="{{ asset('assets/site-assets/img/icon/American_Express_logo__2018.svg') }}" srcset="" alt="express"></i></li>
+                            <li><img src="{{ asset('assets/site-assets/img/icon/paypallogo.jpg') }}" srcset="" alt="Paypal"></i></li>
+                            {{-- <li><i class="fa fa-cc-discover"></i></li> --}}
                         </ul>
+
                     </div>
                 </div>
             </div>

@@ -203,7 +203,25 @@ jQuery(document).on('ready', function(){
 	$("#video").simplePlayer();
 	
 
-	
+	$(document).ready(function() {
+        $('#accordion .btn-link').on('click', function() {
+            var target = $($(this).data('target'));
+
+            if (target.hasClass('show')) {
+                target.collapse('hide');
+            } else {
+                target.collapse('show');
+            }
+        });
+
+        $('#accordion .collapse').on('shown.bs.collapse', function() {
+            $(this).prev('.card-header').find('.arrow').text('▼');
+        });
+
+        $('#accordion .collapse').on('hidden.bs.collapse', function() {
+            $(this).prev('.card-header').find('.arrow').text('▶');
+        });
+    });
 	
 });
 

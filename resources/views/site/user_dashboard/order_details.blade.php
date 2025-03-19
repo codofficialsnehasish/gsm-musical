@@ -12,7 +12,7 @@
                     <!-------------order------------->
                     <div id="orders" class="product-order">
                         <div class="order-details-container">
-                            <div class="order-head d-flex justify-content-between text-center">
+                            <div class="order-head justify-content-between text-center">
                                 <h2 class="title">Order Number:&nbsp;#{{ $order->order_number }}</h2>
                                 @if($order->order_status == 'delivered')
                                     <div class="col-md-4">
@@ -31,195 +31,215 @@
                                 <div class="row">
                                     <div class="col-12 card p-3 mb-4">
                                         <div class="row order-row-item">
-                                            <div class="col-6">
+                                            <div class="col-3">
+                                                </div>
+                                            <div class="col-3 text-left">
                                                 Status
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-3 text-left">
                                                 <strong>{{ ucfirst($order->order_status) }}</strong>
                                             </div>
+                                            <div class="col-3">
+                                                </div>
                                         </div>
                                         <div class="row order-row-item">
-                                            <div class="col-6">
+                                            <div class="col-3">
+                                                </div>
+                                            <div class="col-3 text-left">
                                                 Payment Method
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-3 text-left">
                                                 {{ $order->payment_method }}
                                             </div>
+                                            <div class="col-3">
+                                                </div>
                                         </div>
                                         <div class="row order-row-item">
-                                            <div class="col-6">
+                                            <div class="col-3">
+                                                </div>
+                                            <div class="col-3 text-left">
                                                 Payment Status
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-3 text-left">
                                                 {{ ucfirst($order->payment_status) }}
                                             </div>
+                                            <div class="col-3">
+                                                </div>
                                         </div>
                                         <div class="row order-row-item">
-                                            <div class="col-6">
+                                            <div class="col-3">
+                                                </div>
+                                            <div class="col-3 text-left">
                                                 Date
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-3 text-left">
                                                 <?= format_datetime($order->created_at); ?>
                                             </div>
+                                            <div class="col-3">
+                                                </div>
                                         </div>
                                         <div class="row order-row-item">
-                                            <div class="col-6">
+                                            <div class="col-3">
+                                                </div>
+                                            <div class="col-3 text-left">
                                                 Updated
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-3 text-left">
                                                 <?= time_ago($order->updated_at); ?>
                                             </div>
+                                            <div class="col-3">
+                                                </div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="row shipping-container">
                                     <div class="col-md-12 col-lg-6 m-b-sm-15">
-                                        <h3 class="block-title">Shipping Address</h3>
+                                        <h3 class="block-title text-left pb-3">Shipping Address</h3>
                                         <div class="row shipping-row-item">
-                                            <div class="col-5">
+                                            <div class="col-6 text-left">
                                                 First Name
                                             </div>
-                                            <div class="col-7">
+                                            <div class="col-6 text-left">
                                                 <?= $address_book->shipping_first_name; ?>
                                             </div>
                                         </div>
                                         <div class="row shipping-row-item">
-                                            <div class="col-5">
+                                            <div class="col-6 text-left">
                                                 Last Name
                                             </div>
-                                            <div class="col-7">
+                                            <div class="col-6 text-left">
                                                 <?= $address_book->shipping_last_name; ?>
                                             </div>
                                         </div>
                                         <div class="row shipping-row-item">
-                                            <div class="col-5">
+                                            <div class="col-6 text-left">
                                                 Email
                                             </div>
-                                            <div class="col-7">
+                                            <div class="col-6 text-left">
                                                 <?= $address_book->shipping_email; ?>
                                             </div>
                                         </div>
                                         <div class="row shipping-row-item">
-                                            <div class="col-5">
+                                            <div class="col-6 text-left">
                                                 Phone Number
                                             </div>
-                                            <div class="col-7">
+                                            <div class="col-6 text-left">
                                                 <?= $address_book->shipping_phone_number; ?>
                                             </div>
                                         </div>
                                         <div class="row shipping-row-item">
-                                            <div class="col-5">
+                                            <div class="col-6 text-left">
                                                 Address
                                             </div>
-                                            <div class="col-7">
+                                            <div class="col-6 text-left">
                                                 <?= $address_book->shipping_address; ?>
                                             </div>
                                         </div>
                                         <div class="row shipping-row-item">
-                                            <div class="col-5">
+                                            <div class="col-6 text-left">
                                                 Country
                                             </div>
-                                            <div class="col-7">
+                                            <div class="col-6 text-left">
                                                 <?= $address_book->country->name; ?>
                                             </div>
                                         </div>
                                         <div class="row shipping-row-item">
-                                            <div class="col-5">
+                                            <div class="col-6 text-left">
                                                 State
                                             </div>
-                                            <div class="col-7">
+                                            <div class="col-6 text-left">
                                                 <?= $address_book->state->name; ?>
                                             </div>
                                         </div>
                                         <div class="row shipping-row-item">
-                                            <div class="col-5">
+                                            <div class="col-6 text-left">
                                                 City
                                             </div>
-                                            <div class="col-7">
+                                            <div class="col-6 text-left">
                                                 <?= $address_book->city->name; ?>
                                             </div>
                                         </div>
-                                        <div class="row shipping-row-item">
-                                            <div class="col-5">
+                                        <div class="row shipping-row-item pb-3">
+                                            <div class="col-6 text-left">
                                                 Pincode
                                             </div>
-                                            <div class="col-7">
+                                            <div class="col-6 text-left">
                                                 <?= $address_book->shipping_zip_code; ?>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-12 col-lg-6">
-                                        <h3 class="block-title">Billing Address</h3>
+                                        <h3 class="block-title text-left pb-3">Billing Address</h3>
                                         <div class="row shipping-row-item">
-                                            <div class="col-5">
+                                            <div class="col-6 text-left">
                                                 First Name
                                             </div>
-                                            <div class="col-7">
+                                            <div class="col-6 text-left">
                                                 <?= $address_book->billing_first_name; ?>
                                             </div>
                                         </div>
                                         <div class="row shipping-row-item">
-                                            <div class="col-5">
+                                            <div class="col-6 text-left">
                                                 Last Name
                                             </div>
-                                            <div class="col-7">
+                                            <div class="col-6 text-left">
                                                 <?= $address_book->billing_last_name; ?>
                                             </div>
                                         </div>
                                         <div class="row shipping-row-item">
-                                            <div class="col-5">
+                                            <div class="col-6 text-left">
                                                 Email
                                             </div>
-                                            <div class="col-7">
+                                            <div class="col-6 text-left">
                                                 <?= $address_book->billing_email; ?>
                                             </div>
                                         </div>
                                         <div class="row shipping-row-item">
-                                            <div class="col-5">
+                                            <div class="col-6 text-left">
                                                 Phone Number
                                             </div>
-                                            <div class="col-7">
+                                            <div class="col-6 text-left">
                                                 <?= $address_book->billing_phone_number; ?>
                                             </div>
                                         </div>
                                         <div class="row shipping-row-item">
-                                            <div class="col-5">
+                                            <div class="col-6 text-left">
                                                 Address
                                             </div>
-                                            <div class="col-7">
+                                            <div class="col-6 text-left">
                                                 <?= $address_book->billing_address; ?>
                                             </div>
                                         </div>
                                         <div class="row shipping-row-item">
-                                            <div class="col-5">
+                                            <div class="col-6 text-left">
                                                 Country
                                             </div>
-                                            <div class="col-7">
+                                            <div class="col-6 text-left">
                                                 <?= $address_book->country->name; ?>
                                             </div>
                                         </div>
                                         <div class="row shipping-row-item">
-                                            <div class="col-5">
+                                            <div class="col-6 text-left">
                                                 State
                                             </div>
-                                            <div class="col-7">
+                                            <div class="col-6 text-left">
                                                 <?= $address_book->state->name; ?>
                                             </div>
                                         </div>
                                         <div class="row shipping-row-item">
-                                            <div class="col-5">
+                                            <div class="col-6 text-left">
                                                 City
                                             </div>
-                                            <div class="col-7">
+                                            <div class="col-6 text-left">
                                                 <?= $address_book->city->name ?>
                                             </div>
                                         </div>
                                         <div class="row shipping-row-item">
-                                            <div class="col-5">
+                                            <div class="col-6 text-left">
                                                 Pincode
                                             </div>
-                                            <div class="col-7">
+                                            <div class="col-6 text-left">
                                                 <?= $address_book->billing_zip_code; ?>
                                             </div>
                                         </div>
@@ -229,11 +249,11 @@
                                 <?php $is_order_has_physical_product = false; ?>
                                 <div class="row table-orders-container">
                                     <div class="col-6 col-table-orders">
-                                        <h3 class="block-title">Products</h3>
+                                        <h3 class="block-title text-left pb-2">Products</h3>
                                     </div>
                                     <div class="col-12 card p-3 mb-4">
                                         <div class="table-responsive">
-                                            <table class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                            <table class="table table-striped table-bordered dt-responsive nowrap text-left" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                                 <thead>
                                                     <tr>
                                                         {{-- <th>Product Id</th> --}}
@@ -268,7 +288,7 @@
                                                     @endforeach
                                                 </tbody>
                                             </table>
-                                            <div class="d-flex justify-content-end mt-4">
+                                            <div class="d-flex justify-content-end mt-4 text-left">
                                                 <div class="col-lg-4">
                                                     <div class="row mb-0">
                                                         <label for="example-text-input" class="col-sm-4 col-form-label float-end">Subtotal</label>

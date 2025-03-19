@@ -91,7 +91,7 @@
     <div class="container">		
         <div class="row">
             <div class="col-md-12 text-center">
-                <div class="section_title">						
+                <div class="section_title mb-2">						
                     <h2>Our <span>Products</span></h2>
                 </div>
             </div>
@@ -119,8 +119,10 @@
                         @endforeach ">
                         <div class="single_product">
                             <div class="product_image">
-                                <img src="{{ getProductMainImage($products->id) }}" alt=""/>
-                                <div class="new_badge">New</div>
+                                <a href="{{ route('product.details',$products->slug) }}">
+                                    <img src="{{ getProductMainImage($products->id) }}" alt=""/>
+                                    <div class="new_badge">New</div>
+                                </a>
                                 <div class="box-content">
                                     <a href="javascript:void(0)" class="add-to-wishlist" data-product-id="{{ $products->id }}"><i class="fa fa-heart-o"></i></a>
                                     {{-- <a href="javascript:void(0)" class="add-to-cart-btn" data-product-id="{{ $products->id }}"><i class="fa fa-cart-plus"></i></a> --}}
@@ -185,7 +187,9 @@
             <div class="col-lg-3 col-md-4 col-sm-6">
                 <div class="single_product">
                     <div class="product_image">
-                        <img src="{{ getProductMainImage($featured_product->id) }}" alt=""/>
+                        <a href="{{ route('product.details',$products->slug) }}">
+                            <img src="{{ getProductMainImage($featured_product->id) }}" alt=""/>
+                        </a>
                         <div class="box-content">
                             <a href="javascript:void(0)" class="add-to-wishlist" data-product-id="{{ $featured_product->id }}"><i class="fa fa-heart-o"></i></a>
                             {{-- <a href="javascript:void(0)" class="add-to-cart-btn" data-product-id="{{ $featured_product->id }}"><i class="fa fa-cart-plus"></i></a> --}}
