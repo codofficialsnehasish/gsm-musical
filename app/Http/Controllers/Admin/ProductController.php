@@ -166,7 +166,7 @@ class ProductController extends Controller implements HasMiddleware
     public function inventory_edit_process(Request $request){ 
         $product = Product::find($request->product_id);
         $request->validate([
-            'sku' => 'required|unique:products,sku,'.$product->id,
+            'sku' => 'nullable|unique:products,sku,'.$product->id,
         ]);
         $product->sku = $request->sku;
         $product->stock	= $request->stock ?? 0;

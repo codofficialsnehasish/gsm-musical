@@ -40,7 +40,7 @@
                                         <div class="mb-3 col-md-6">
                                             <label class="form-label">SKU</label>
                                             <div>
-                                                <input data-parsley-type="text" type="text" value="{{ $product->sku }}" class="form-control" required placeholder="Enter Product SKU" name="sku">
+                                                <input data-parsley-type="text" type="text" value="{{ $product->sku }}" class="form-control" placeholder="Enter Product SKU" name="sku">
                                             </div>
                                         </div>
                                         @if($product->product_type == 'simple')
