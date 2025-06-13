@@ -152,6 +152,9 @@ Route::middleware('auth')->group(function () {
                 Route::get('price-edit/{id?}','price_edit')->name('products.price-edit');
                 Route::post('price-edit-process','price_edit_process')->name('products.price-edit-process');
 
+                Route::get('specification-edit/{id?}','specification_edit')->name('products.specification-edit');
+                Route::post('specification-edit-process','specification_edit_process')->name('products.specification-edit-process');
+                Route::get('specification-delete-process/{id?}','specification_delete_process')->name('products.specification-delete-process');
                 
                 Route::get('inventory-edit/{id?}','inventory_edit')->name('products.inventory-edit');
                 Route::post('inventory-edit-process','inventory_edit_process')->name('products.inventory-edit-process');

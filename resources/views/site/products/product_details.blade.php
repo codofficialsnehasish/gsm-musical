@@ -168,6 +168,12 @@ img.gc-display-display {
                             <a class="active" href="#description" role="tab" data-toggle="tab">Description</a>
                         </li>
                         <li>
+                            <a href="#specifications" role="tab" data-toggle="tab">Specifications</a>
+                        </li>
+                        <li>
+                            <a href="#videos" role="tab" data-toggle="tab">Videos</a>
+                        </li>
+                        <li>
                             <a href="#reviews" role="tab" data-toggle="tab">Reviews</a>
                         </li>
                     </ul>
@@ -175,6 +181,23 @@ img.gc-display-display {
                     <!-- Tab panes -->
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane fade show active" id="description">
+                            {!! $product->long_description !!}
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane fade" id="specifications">
+                            <ul class="check-list">
+                                @foreach($product->specifications as $spec)
+                                <li class="check-list__item">
+                                    <i class="fa fa-arrow-circle-right"></i>
+                                    <span class="custom-attribute-name">{{ $spec->title }}</span>
+                                    :
+                                    <span class="custom-attribute-value">{{ $spec->description }}</span> 
+                                </li>
+                                @endforeach
+                            </ul>
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane fade" id="videos">
                             {!! $product->long_description !!}
                         </div>
 

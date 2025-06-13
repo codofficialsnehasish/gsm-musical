@@ -40,4 +40,9 @@ class Product extends Model implements HasMedia
     {
         return $this->hasMany(OrderItem::class);
     }
+
+    public function specifications()
+    {
+        return $this->hasMany(ProductSpecification::class)->orderBy('sort_order');
+    }
 }

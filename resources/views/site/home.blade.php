@@ -149,7 +149,7 @@
                                         </div>
                                         <div>
                                         <p class="price">Rs {{ $products->total_price }}</p>
-                                        <button><i class="fa-solid fa-cart-shopping"></i></button>
+                                        <button><i class="fa-solid fa-cart-shopping add-to-cart-btn" data-product-id="{{ $products->id }}"></i></button>
                                         </div>
                                     </div>
                                 </div>

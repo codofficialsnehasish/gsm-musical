@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\Brand;
 use App\Models\ProductVariation;
 use App\Models\ProductVariationOption;
+use App\Models\ProductSpecification;
 use Illuminate\Http\Request;
 
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -148,9 +149,49 @@ class ProductController extends Controller implements HasMiddleware
         $product->product_price = $request->total_price - $product->gst_amount;
         $res = $product->update();
         if($res){
-            return redirect(route('products.inventory-edit',$product->id))->with(['success'=>'Price Details Updated Successfully']);
+            return redirect(route('products.specification-edit',$product->id))->with(['success'=>'Price Details Updated Successfully']);
         }else{
             return redirect()->back()->with(['error'=>'Some error occurs!']);
+        }
+    }
+
+    public function specification_edit(Request $request){
+        if(request()->segment(4) == ''){
+			return redirect(route('products.basic-info-create'))->with(['error'=>'Please Fill Basic Information']);
+		}
+        $product = Product::find($request->id);
+        return view('admin.products.specifications_edit',compact('product'));
+    }
+
+    public function specification_edit_process(Request $request){
+        $res = 2;
+        if(!empty($request->title)){
+            foreach($request->title as $key => $value){
+                if(empty(trim($value))) {
+                    continue;
+                }
+                $spec = new ProductSpecification();
+                $spec->product_id = $request->product_id;
+                $spec->title = $value;
+                $spec->description = $request->description[$key];
+                $spec->save();
+                $res = 1;
+            }
+        }
+        if($res == 1){
+            return redirect(route('products.inventory-edit', $request->product_id))->with(['success'=>'Specifications Details Updated Successfully']);
+        }elseif($res == 2){
+            return redirect(route('products.inventory-edit', $request->product_id));
+        }else{
+            return redirect()->back()->with(['error'=>'Some error occurs!']);
+        }
+    }
+
+    public function specification_delete_process($id){
+        $spec = ProductSpecification::find($id);
+        if($spec){
+            $spec->delete();
+            return redirect()->back()->with(['success'=>'Specifications Deleted Successfully']);
         }
     }
 
