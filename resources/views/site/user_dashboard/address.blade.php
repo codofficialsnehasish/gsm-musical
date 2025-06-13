@@ -88,13 +88,12 @@
                                         </div>
                                         
                                     </div>
+                                    <button type="submit" class="btn border-btn"> <span>Add Address</span> </button>
                                 </div>
                             </div>
 
                             <!-- <hr class="my-4"> -->
-                            <div class="text-center mb-3">
-                                <button type="submit" class="btn btn-info"> <span>Add Address</span> </button>
-                            </div>
+                           
                             <!-- Shipping Address -->
                         </form>
                     </div>

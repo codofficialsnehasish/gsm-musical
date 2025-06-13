@@ -1,7 +1,7 @@
 <footer class="footer_area">
     <div class="container">
         <div class="row">	 
-            <div class="col-md-5 col-sm-6">
+            <div class="col-lg-5 col-md-3 col-sm-6">
                 <div class="single_ftr">
                     <img src="{{ asset('assets/site-assets/img/logo-food.png') }}" alt="">
                     <div class="newsletter_form">
@@ -9,17 +9,17 @@
                             unrivalled choice for KoIkata's music lovers.</p>
                         <div class="ftr_social_icon">
                             <ul>
-                                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                                <li><a href="#"><i class="fa fa-google"></i></a></li>
-                                <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                <li><a href="#"><i class="fa-brands fa-facebook-f"></i></a></li>
+                                <li><a href="#"><i class="fa-brands fa-google"></i></a></li>
+                                <li><a href="#"><i class="fa-brands fa-linkedin-in"></i></a></li>
+                                <li><a href="#"><i class="fa-brands fa-twitter"></i></a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
             </div> <!--  End Col -->
             
-            <div class="col-md-2 col-sm-6">
+            <div class="col-lg-2 col-md-3 col-sm-6 col-6">
                 <div class="single_ftr">
                     <h4 class="sf_title">QUICK LINKS</h4>
                     <ul>
@@ -32,7 +32,7 @@
                 </div>
             </div> <!--  End Col -->
             
-            <div class="col-md-2 col-sm-6">
+            <div class="col-lg-2 col-md-3 col-sm-6 col-6">
                 <div class="single_ftr">
                     <h4 class="sf_title">CUSTOMER CARE</h4>
                     <ul>
@@ -45,20 +45,20 @@
                 </div>
             </div> <!--  End Col -->	
 
-            <div class="col-md-3 col-sm-6">
+            <div class="col-lg-3 col-md-3 col-sm-6">
                 <div class="single_ftr">
-                    <h4 class="sf_title">CALL</h4>
-                    <ul>
+                    <h4 class="sf_title mb-0">CALL</h4>
+                    <ul class="mb-4">
                         <li>+91 70036 96900</li>
                     </ul>
 
-                    <h4 class="sf_title">EMAIL</h4>
-                    <ul>
+                    <h4 class="sf_title mb-0">EMAIL</h4>
+                    <ul class="mb-4">
                         <li>gsmmusicalkolkata@hotmail.com</li>
                     </ul>
 
-                    <h4 class="sf_title">ADDRESS</h4>
-                    <ul>
+                    <h4 class="sf_title mb-0">ADDRESS</h4>
+                    <ul class="mb-4">
                         <li>Kavi Nazrul Sarani, Opposite Asma Dhaba, 
                             Baruipur, Kolkata, India, 700144</li>
                     </ul>
@@ -83,6 +83,7 @@
                             <li><img src="{{ asset('assets/site-assets/img/icon/mobile-receipt-mastercard.jpg') }}" srcset="" alt="mastercard"></li>
                             <li><img src="{{ asset('assets/site-assets/img/icon/American_Express_logo__2018.svg') }}" srcset="" alt="express"></i></li>
                             <li><img src="{{ asset('assets/site-assets/img/icon/paypallogo.jpg') }}" srcset="" alt="Paypal"></i></li>
+                            <li><img src="{{ asset('assets/site-assets/img/icon/upi.jpg') }}" srcset="" alt="upi"></i></li>
                             {{-- <li><i class="fa fa-cc-discover"></i></li> --}}
                         </ul>
 

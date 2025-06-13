@@ -135,9 +135,6 @@ jQuery(document).on('ready', function(){
 		}
 	});		
 	
-		
-
-	
 	$("#testimonial-slider3").owlCarousel({
 		items:4,
 		navText:['<i class="fa fa-long-arrow-left"></i>','<i class="fa fa-long-arrow-right"></i>'],
@@ -158,8 +155,8 @@ jQuery(document).on('ready', function(){
 				items:4
 			}
 		}
-	});	
-	
+	});		
+	   
 	
 	// brand slider 
 	$('.brand_slide').owlCarousel({
@@ -251,4 +248,3 @@ jQuery(document).on('ready', function(){
 
 new WOW().init();
 })(jQuery);	
-

@@ -9,7 +9,7 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-6 text-left">
-                <h3>Shop Details</h3>
+                <h3>Cart Details</h3>
             </div>		
 
             <div class="col-sm-6 text-right">
@@ -140,7 +140,7 @@
 <section class="process_area section_padding gradient_section">
     <div class="container">
         <div class="row text-center">		
-            <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="col-lg-3 col-md-6 col-sm-6 col-6">
                 <div class="single-process">
                     <!-- process Icon -->
                     <div class="picon"><i class="fa fa-truck"></i></div>
@@ -152,7 +152,7 @@
                 </div>	
             </div>	<!-- End Col -->				
 
-            <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="col-lg-3 col-md-6 col-sm-6 col-6">
                 <div class="single-process">
                     <!-- process Icon -->
                     <div class="picon"><i class="fa fa-money"></i></div>
@@ -164,7 +164,7 @@
                 </div>	
             </div>	<!-- End Col -->				
 
-            <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="col-lg-3 col-md-6 col-sm-6 col-6">
                 <div class="single-process">
                     <!-- process Icon -->
                     <div class="picon"><i class="fa fa-headphones "></i></div>
@@ -176,7 +176,7 @@
                 </div>	
             </div>	<!-- End Col -->				
 
-            <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="col-lg-3 col-md-6 col-sm-6 col-6">
                 <div class="single-process">
                     <!-- process Icon -->
                     <div class="picon"><i class="fa fa-clock-o"></i></div>

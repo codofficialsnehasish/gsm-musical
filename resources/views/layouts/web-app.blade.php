@@ -15,14 +15,25 @@
 	<link rel="stylesheet" href="{{ asset('assets/site-assets/css/venobox.css') }}" />
 	<link rel="stylesheet" href="{{ asset('assets/site-assets/css/font-awesome.css') }}" />
 	<link rel="stylesheet" href="{{ asset('assets/site-assets/css/bootstrap.min.css') }}" />	
-	<link rel="stylesheet" href="{{ asset('assets/site-assets/css/style2.css') }}" />
-	<link rel="stylesheet" href="{{ asset('assets/site-assets/css/responsive.css') }}" />	
+	<link rel="stylesheet" href="{{ asset('assets/site-assets/css/style96.css') }}" />
+	<link rel="stylesheet" href="{{ asset('assets/site-assets/css/responsive74.css') }}" />	
 	<link rel="stylesheet" href="{{ asset('assets/site-assets/zoom/css/my-zoom.css') }}" />	
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <!-- Toast message -->
     <link href="{{ asset('assets/admin-assets/plugins/toast/toastr.css') }}" rel="stylesheet" type="text/css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <!-- Toast message -->
     <style>
+      
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+  
         .suggestions {
             position: absolute;
             background: #ffffff;
@@ -77,6 +88,7 @@
     <script src="{{ asset('assets/admin-assets/plugins/toast/toastr.js') }}"></script>
     <script src="{{ asset('assets/admin-assets/js/toastr.init.js') }}"></script>
     <!-- toast message -->
+    
     @include('layouts._massages')
     @include('layouts.scripts.cart_script')
     @include('layouts.scripts.locations')
@@ -116,6 +128,76 @@
                 }
             });
         });
+
+
+        $("#testimonial-slider3").owlCarousel({
+		items:4,
+		navText:['<i class="fa fa-long-arrow-left"></i>','<i class="fa fa-long-arrow-right"></i>'],
+		smartSpeed:450,
+		autoplay:true,
+		autoplayTimeout:6000,
+		mouseDrag:true,
+		nav:true,
+		dots:false,
+		responsive:{
+			0:{
+				items:1
+			},
+			600:{
+				items:1
+			},
+			1000:{
+				items:4
+			}
+		}   
+	});	
+
+    document.querySelector('.navbar-toggler').addEventListener('click', function () {
+    const offcanvas = document.getElementById('offcanvasNavbar');
+    if (offcanvas.classList.contains('show')) {
+        offcanvas.classList.remove('show');
+    } else {
+        offcanvas.classList.add('show');
+    }
+});
+
+document.querySelector('.close').addEventListener('click', function () {
+    document.getElementById('offcanvasNavbar').classList.remove('show');
+});
+
+document.querySelectorAll('.dropdown-toggle').forEach(function (toggle) {
+        toggle.addEventListener('click', function (e) {
+            e.preventDefault();
+            const dropdownMenu = toggle.nextElementSibling;
+            if (dropdownMenu.style.display === 'block') {
+                dropdownMenu.style.display = 'none';
+            } else {
+                dropdownMenu.style.display = 'block';
+            }
+        });
+    });
+
+
+    $(document).on('click', '[data-toggle="offcanvas1"]', function (e) {
+        e.preventDefault();
+        $('#offcanvasNavbar1').toggleClass('show');
+    });
+
+    // Close button functionality
+    $(document).on('click', '.offcanvas .close', function (e) {
+        e.preventDefault();
+        $('#offcanvasNavbar1').removeClass('show');
+    });
+
+    // Close the offcanvas if clicking outside it
+    $(document).mouseup(function (e) {
+        var container = $("#offcanvasNavbar1");
+        if (!container.is(e.target) && container.has(e.target).length === 0) {
+            container.removeClass('show');
+        }
+    });
+</script>
+
     </script>
 
 

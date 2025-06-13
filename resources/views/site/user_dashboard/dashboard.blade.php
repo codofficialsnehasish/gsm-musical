@@ -21,7 +21,7 @@
 
 @section('content')
 
-<div class="container py-5">
+<div class="container py-5 dashboard">
     <div class="row">
         <!-- Sidebar -->
         <div class="col-md-3">

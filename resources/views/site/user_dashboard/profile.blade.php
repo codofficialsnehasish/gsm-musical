@@ -32,7 +32,7 @@
                         <label for="address">Address:</label>    
                         <textarea rows="3" name="address" id="address" placeholder="Street address. Apartment, suite, unit etc. (optional)" name="address" class="form-control">{{ Auth::user()->address }}</textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary">Update Profile</button>
+                    <button type="submit" class="btn border-btn">Update Profile</button>
                 </form>
             </div>
         </div>

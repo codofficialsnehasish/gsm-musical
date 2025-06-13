@@ -23,15 +23,15 @@
             </div>
         </div>
     </div>
-
+     
 
     <!-- Shop Product Area -->
     <div class="shop_page_area">
-        <div class="container-fluid">
+        <div class="container">
             <div class="row">
-                <div class="col-lg-2">
+                <div class="col-lg-2 col-md-3">
                     <section class="widget mb-9">
-                        <h3 class="headingVII fwEbold text-uppercase mb-6">Filter by price</h3>
+                        <h4 class="headingVII fwEbold text-uppercase mb-6">Filter by price</h4>
                         <!-- filter ranger form -->
                         <form action="javascript:void(0);" class="filter-ranger-form">
                             <div id="slider-range" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
@@ -41,7 +41,7 @@
                             <div class="ui-slider-range ui-widget-header ui-corner-all" style="left: 0%; width: 100%;"></div></div>
                             <input type="hidden" id="amount1" name="price_rangemin" value="0">
                             <input type="hidden" id="amount2" name="price_rangemax" value="10000">
-                            <div class="get-results-wrap d-flex align-items-center justify-content-between">
+                            <div class="get-results-wrap d-flex justify-content-left flex-column">
                                 <button type="button" class="btn btnTheme btn-shop fwEbold md-round px-3 pt-1 pb-2 text-uppercase" onclick="filterProducts()">Filter</button>
                                 <p id="amount" class="mb-0">Price : ₹0 - ₹10000</p>
                             </div>
@@ -51,7 +51,7 @@
 
                         <!-- Accordion Item: Product Type -->
                         <div class="card">
-                            <div class="card-header" id="headingOne">
+                            <div class="card-header p-0" id="headingOne">
                                 <h5 class="mb-0">
                                     <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                         Product Type <span class="arrow">▼</span>
@@ -60,30 +60,30 @@
                             </div>
                 
                             <div id="collapseOne" class="collapse show" aria-labelledby="headingOne">
-                                <div class="card-body">
-                                    <div>
+                       
+                                    <div class="shop_accordian_design">
                                         <input type="checkbox" id="drum_kits">
                                         <label for="drum_kits">Electronic Drum Kits</label>
                                     </div>
-                                    <div>
+                                    <div class="shop_accordian_design">
                                         <input type="checkbox" id="midi">
                                         <label for="midi">Midi Keyboards</label>
                                     </div>
-                                    <div>
+                                    <div class="shop_accordian_design">
                                         <input type="checkbox" id="monitor_speaker">
                                         <label for="monitor_speaker">Monitor Speakers</label>
                                     </div>
-                                    <div>
+                                    <div class="shop_accordian_design">
                                         <input type="checkbox" id="digital_pianos">
                                         <label for="digital_pianos">Digital Pianos</label>
                                     </div>
-                                </div>
+                       
                             </div>
                         </div>
                 
                         <!-- Accordion Item: Condition -->
                         <div class="card">
-                            <div class="card-header" id="headingTwo">
+                            <div class="card-header p-0" id="headingTwo">
                                 <h5 class="mb-0">
                                     <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                         Condition <span class="arrow">▶</span>
@@ -92,26 +92,26 @@
                             </div>
                 
                             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo">
-                                <div class="card-body">
-                                    <div>
+                           
+                                    <div class="shop_accordian_design">
                                         <input type="checkbox" id="new">
                                         <label for="new">New</label>
                                     </div>
-                                    <div>
+                                    <div class="shop_accordian_design">
                                         <input type="checkbox" id="used">
                                         <label for="used">Used</label>
                                     </div>
-                                    <div>
+                                    <div class="shop_accordian_design">
                                         <input type="checkbox" id="refurbished">
                                         <label for="refurbished">Refurbished</label>
                                     </div>
-                                </div>
+                             
                             </div>
                         </div>
                 
                         <!-- Accordion Item: Shipping Time -->
                         <div class="card">
-                            <div class="card-header" id="headingThree">
+                            <div class="card-header p-0" id="headingThree">
                                 <h5 class="mb-0">
                                     <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                                         Shipping Time <span class="arrow">▶</span>
@@ -120,30 +120,30 @@
                             </div>
                 
                             <div id="collapseThree" class="collapse" aria-labelledby="headingThree">
-                                <div class="card-body">
-                                    <div>
+                             
+                                    <div class="shop_accordian_design">
                                         <input type="checkbox" id="one_day">
                                         <label for="one_day">1 Day Shipping</label>
                                     </div>
-                                    <div>
+                                    <div class="shop_accordian_design">
                                         <input type="checkbox" id="three_days">
                                         <label for="three_days">3 Days Shipping</label>
                                     </div>
-                                    <div>
+                                    <div class="shop_accordian_design">
                                         <input type="checkbox" id="week">
                                         <label for="week">1 Week Shipping</label>
                                     </div>
-                                </div>
+                           
                             </div>
                         </div>
                 
                     </div>
                 </div>
-                <div class="col-lg-10">
+                <div class="col-lg-10 col-md-9">
                     <div class="shop_bar_tp fix">
                         <form method="GET" id="filterForm">
                             <div class="row">
-                                <div class="col-sm-6 col-xs-12 short_by_area">
+                                <div class="col-sm-6 col-xs-12 col-7 short_by_area">
                                     <div class="short_by_inner">
                                         <label>Sort by:</label>
                                         <select class="sort-select" name="sort_by"
@@ -165,7 +165,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-sm-6 col-xs-12 show_area">
+                                <div class="col-sm-6 col-xs-12 col-5 show_area">
                                     <div class="show_inner">
                                         <label>Show:</label>
                                         <select class="show-select" name="show"
@@ -189,26 +189,37 @@
                     <div class="shop_details text-center">
                         <div class="row">
                             @foreach ($products as $product)
-                                <div class="col-md-3 col-sm-6">
+                                <div class="col-md-4 col-sm-6 col-6 col-lg-3">
                                     <div class="single_product">
                                         <div class="product_image">
                                             <a href="{{ route('product.details',$product->slug) }}">
                                                 <img src="{{ getProductMainImage($product->id) }}" alt="" />
+                                                <div class="new_badge">New</div>
+                                              
                                             </a>
-                                            <div class="box-content">
-                                                <a href="javascript:void(0)" class="add-to-wishlist"
-                                                    data-product-id="{{ $product->id }}"><i class="fa fa-heart-o"></i></a>
+                                            <a href="javascript:void(0)" class="add-to-wishlist new_badge1"
+                                            data-product-id="{{ $product->id }}"><i class="fa fa-heart-o"></i></a>
+                                            {{-- <div class="box-content"> --}}
+                                               
                                                 {{-- <a href="javascript:void(0)" class="add-to-cart-btn" data-product-id="{{ $product->id }}"><i class="fa fa-cart-plus"></i></a> --}}
-                                                <a href="{{ route('product.details', $product->slug) }}"><i
-                                                        class="fa fa-search"></i></a>
-                                            </div>
+                                                {{-- <a href="{{ route('product.details', $product->slug) }}"><i
+                                                        class="fa fa-search"></i></a> --}}
+                                            {{-- </div> --}}
                                         </div>
 
                                         <div class="product_btm_text">
                                             <h4><a
                                                     href="{{ route('product.details', $product->slug) }}">{{ $product->name }}</a>
                                             </h4>
-                                            <span class="price">Rs {{ $product->total_price }}</span>
+                                            <div class="p_rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                            </div>
+                                            <p class="price">Rs {{ $product->total_price }}</p>
+                                            <button><i class="fa-solid fa-cart-shopping"></i></button>
                                         </div>
                                     </div>
                                 </div>

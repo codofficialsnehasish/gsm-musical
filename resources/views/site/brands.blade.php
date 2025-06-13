@@ -8,10 +8,10 @@
 <div id="page_item_area">
     <div class="container">
         <div class="row">
-            <div class="col-sm-6 text-left">
+            <div class="col-sm-6 col-6 text-left">
                 <h3>Brands</h3>
             </div>		
-            <div class="col-sm-6 text-right">
+            <div class="col-sm-6 col-6 text-right">
                 <ul class="p_items">
                     <li><a href="{{ route('home') }}">home</a></li>
                     <li><span>brands</span></li>
@@ -28,7 +28,7 @@
         <div class="shop_bar_tp fix">
             <form method="GET" id="filterForm">
                 <div class="row">
-                    <div class="col-sm-6 col-xs-12 short_by_area">
+                    <div class="col-sm-6 col-xs-12 col-7 short_by_area">
                         <div class="short_by_inner">
                             <label>Sort by:</label>
                             <select class="sort-select" name="sort_by" onchange="document.getElementById('filterForm').submit()">
@@ -41,7 +41,7 @@
                         </div>
                     </div>
         
-                    <div class="col-sm-6 col-xs-12 show_area">
+                    <div class="col-sm-6 col-xs-12 col-5 show_area">
                         <div class="show_inner">
                             <label>Show:</label>
                             <select class="show-select" name="show" onchange="document.getElementById('filterForm').submit()">
@@ -58,7 +58,7 @@
         </div>
         
             
-        <div class="shop_details text-center">
+        <div class="shop_details text-center brands_design">
             <div class="row">    
                 @foreach($brands as $brand)
                 <div class="col-md-3 col-sm-6">
