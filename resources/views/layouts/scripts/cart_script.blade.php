@@ -1,23 +1,198 @@
 <script>
     $(document).ready(function() {
         let selectedVariationId = null;
+        let selectedVariations = {};
 
         // Handle variation selection
-        $(".variation-option").on("click", function (e) {
-            e.preventDefault();
+        // $(".variation-option").on("click", function (e) {
+        //     e.preventDefault();
 
-            // Get selected price and ID
-            selectedVariationId = $(this).data("option-id");
-            let newPrice = $(this).data("price");
+        //     // Get selected price and ID
+        //     selectedVariationId = $(this).data("option-id");
+        //     let newPrice = $(this).data("price");
 
-            // Update UI
-            $("#dynamic-price").text('Rs '+newPrice);
-            $("#selected-variation-id").val(selectedVariationId);
+        //     // Update UI
+        //     $("#dynamic-price").text('Rs '+newPrice);
+        //     $("#selected-variation-id").val(selectedVariationId);
 
-            // Remove active class from all and add to selected
-            $(".variation-option").removeClass("active");
-            $(this).addClass("active");
+        //     // Remove active class from all and add to selected
+        //     $(".variation-option").removeClass("active");
+        //     $(this).addClass("active");
+        // });
+
+    
+        // Initialize the gallery
+        var gcInstance;
+        $('#glasscase').glassCase({
+            'thumbsPosition': 'bottom',
+            'widthDisplay': 560
         });
+        gcInstance = $('#glasscase').data('gcglasscase');
+
+        // Store image dimensions with fallback
+        var imageDimensions = {};
+
+        // Handle variation selection
+        $('.variation-option').click(function(e) {
+            e.preventDefault();
+            
+            if ($(this).hasClass('disabled')) return;
+            
+            // Update active state
+            $('.variation-option').removeClass('active');
+            $(this).addClass('active');
+            
+            // Get the image URL from the selected variation
+            const imageUrl = $(this).data('image-url');
+            console.log(imageUrl);
+            
+            // Update price if available
+            selectedVariationId = $(this).data("option-id");
+            const newPrice = $(this).data('price');
+            if (newPrice) {
+                $('#dynamic-price').text('Rs ' + newPrice);
+            }
+            
+            // Update the display
+            updateImageDisplay(imageUrl);
+        });
+
+        function updateImageDisplay(url) {
+            if (!url) {
+                console.error('No image URL provided');
+                return;
+            }
+
+            // Show loading state
+            gcInstance.gcDisplayContainer.addClass('gc-hide');
+            gcInstance.addLoader(gcInstance.gcDisplayArea);
+            
+            // Check if we already have dimensions for this image
+            if (imageDimensions[url]) {
+                updateGalleryWithImage(url);
+                return;
+            }
+
+            // Create new image to load
+            var newImg = new Image();
+            
+            newImg.onload = function() {
+                // Store dimensions
+                imageDimensions[url] = {
+                    width: this.width,
+                    height: this.height,
+                    isLoaded: true
+                };
+                updateGalleryWithImage(url);
+            };
+            
+            newImg.onerror = function() {
+                console.warn('Failed to load image, using fallback:', url);
+                
+                // Use fallback dimensions
+                imageDimensions[url] = {
+                    width: gcInstance.config.widthDisplay,
+                    height: gcInstance.config.heightDisplay,
+                    isLoaded: false
+                };
+                
+                // Try to find an alternative image
+                const fallbackUrl = findFallbackImage();
+                if (fallbackUrl && fallbackUrl !== url) {
+                    updateImageDisplay(fallbackUrl);
+                    return;
+                }
+                
+                updateGalleryWithImage(url);
+            };
+            
+            newImg.src = url;
+        }
+
+        function updateGalleryWithImage(url) {
+            // Ensure we have dimensions
+            if (!imageDimensions[url]) {
+                imageDimensions[url] = {
+                    width: gcInstance.config.widthDisplay,
+                    height: gcInstance.config.heightDisplay,
+                    isLoaded: false
+                };
+            }
+
+            // Update current image data
+            gcInstance.gcImageData[gcInstance.current] = imageDimensions[url];
+            
+            // Update the main display
+            gcInstance.gcDisplayDisplay.attr('src', url);
+            gcInstance.gcZoomDisplay.attr('src', url);
+            
+            // Refresh gallery components
+            gcInstance.setupDisplayDisplay();
+            gcInstance.setupLens();
+            gcInstance.setupZoomPos();
+            
+            // Hide loader
+            gcInstance.removeLoader(gcInstance.gcDisplayArea);
+            gcInstance.gcDisplayContainer.removeClass('gc-hide');
+            
+            // Highlight thumbnail
+            highlightThumbnail(url);
+        }
+
+        function findFallbackImage() {
+            // Try to find the first available image in thumbnails
+            const firstThumb = $('#glasscase img').first();
+            if (firstThumb.length) {
+                return firstThumb.attr('src');
+            }
+            
+            // Try to find the default product image
+            const defaultImage = $('.variation-option[data-image-url]').first().data('image-url');
+            if (defaultImage) {
+                return defaultImage;
+            }
+            
+            return null;
+        }
+
+        function highlightThumbnail(url) {
+            if (!url) return;
+            
+            // Remove active class from all thumbnails
+            $('#glasscase li').removeClass('gc-active');
+            
+            // Find and highlight the matching thumbnail
+            $('#glasscase img').each(function() {
+                if ($(this).attr('src') === url) {
+                    $(this).closest('li').addClass('gc-active');
+                    
+                    // Ensure thumbnail is visible
+                    scrollToThumbnail($(this).closest('li'));
+                    return false;
+                }
+            });
+        }
+
+        function scrollToThumbnail(thumbnail) {
+            const container = $('#glasscase').parent();
+            const containerWidth = container.width();
+            const thumbPos = thumbnail.position().left;
+            const thumbWidth = thumbnail.outerWidth();
+            
+            if (thumbPos < 0 || thumbPos + thumbWidth > containerWidth) {
+                container.animate({
+                    scrollLeft: thumbPos
+                }, 300);
+            }
+        }
+        
+        // Initialize with first available image
+        const firstImageUrl = $('.variation-option[data-image-url]').first().data('image-url');
+        if (firstImageUrl) {
+            updateImageDisplay(firstImageUrl);
+        } else {
+            console.error('No image URLs found in variation options');
+        }
 
 
         $('.add-to-cart-btn').on('click', function() {

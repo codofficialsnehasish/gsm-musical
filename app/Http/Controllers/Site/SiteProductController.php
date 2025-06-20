@@ -64,9 +64,46 @@ class SiteProductController extends Controller
         $relatedProducts = $relatedProducts->reject(function ($relatedProduct) use ($product) {
             return $relatedProduct->id == $product->id;
         });
+
+        $reviews = $product->reviews()
+            // ->with(['user', 'images', 'helpfuls'])
+            ->with(['user'])
+            // ->where('is_approved', true)
+            ->latest()->get();
+
+        $ratingDistribution = $this->getRatingDistribution($product);
+        $averageRating = $product->reviews()->where('is_approved', true)->avg('rating');
+        // return $reviews;
                                     
 
-        return view('site.products.product_details',compact('product','relatedProducts'));
+        return view('site.products.product_details',compact('product','relatedProducts','reviews', 'ratingDistribution', 'averageRating'));
+    }
+
+    private function getRatingDistribution(Product $product)
+    {
+        $distribution = [
+            5 => 0,
+            4 => 0,
+            3 => 0,
+            2 => 0,
+            1 => 0,
+        ];
+
+        $reviews = $product->reviews()
+            ->where('is_approved', true)
+            ->select('rating', \DB::raw('count(*) as count'))
+            ->groupBy('rating')
+            ->get();
+
+        $totalReviews = $reviews->sum('count');
+
+        foreach ($reviews as $review) {
+            $distribution[$review->rating] = $totalReviews > 0 
+                ? round(($review->count / $totalReviews) * 100) 
+                : 0;
+        }
+
+        return $distribution;
     }
 
     public function all_brands(Request $request){
@@ -175,6 +212,52 @@ class SiteProductController extends Controller
         return view('site.categories', compact('categorys'));
     }
 
+    // public function products_by_category(Request $request, string $slug)
+    // {
+    //     $category = Category::where('slug', $slug)->first();
+
+    //     if (!$category) {
+    //         return back()->with('error', 'No Data Found');
+    //     }
+
+    //     $query = Product::query();
+
+    //     // Filter products by category (Many-to-Many relationship)
+    //     $query->whereHas('categories', function ($q) use ($category) {
+    //         $q->where('categories.id', $category->id);
+    //     });
+
+    //     // Sorting Logic
+    //     if ($request->has('sort_by')) {
+    //         switch ($request->sort_by) {
+    //             case 'name_desc':
+    //                 $query->orderBy('name', 'desc');
+    //                 break;
+    //             case 'date_asc':
+    //                 $query->orderBy('created_at', 'asc');
+    //                 break;
+    //             case 'date_desc':
+    //                 $query->orderBy('created_at', 'desc');
+    //                 break;
+    //             default:
+    //                 $query->orderBy('name', 'asc');
+    //         }
+    //     }
+
+    //     // Pagination Limit (Default: 4 products per page)
+    //     $perPage = $request->input('show', 4);
+
+    //     $query->where('is_visible', 1);
+
+    //     // If you need to filter by brand, make sure $brand is defined or remove this line
+    //     // $query->where('brand_id', $brand->id);
+
+    //     // Fetch products with applied filters and pagination
+    //     $products = $query->paginate($perPage)->withQueryString();
+
+    //     return view('site.products.products', compact('products'));
+    // }
+
     public function products_by_category(Request $request, string $slug)
     {
         $category = Category::where('slug', $slug)->first();
@@ -189,6 +272,29 @@ class SiteProductController extends Controller
         $query->whereHas('categories', function ($q) use ($category) {
             $q->where('categories.id', $category->id);
         });
+
+        // Price Range Filter
+        if ($request->has('price_min') && $request->has('price_max')) {
+            $query->whereBetween('price', [
+                $request->price_min,
+                $request->price_max
+            ]);
+        }
+
+        // Product Type Filter (assuming you have a 'product_type' column or relationship)
+        if ($request->has('product_types')) {
+            $query->whereIn('product_type', $request->product_types);
+        }
+
+        // Condition Filter
+        if ($request->has('conditions')) {
+            $query->whereIn('condition', $request->conditions);
+        }
+
+        // Shipping Time Filter
+        // if ($request->has('shipping_times')) {
+        //     $query->whereIn('shipping_time', $request->shipping_times);
+        // }
 
         // Sorting Logic
         if ($request->has('sort_by')) {
@@ -212,13 +318,10 @@ class SiteProductController extends Controller
 
         $query->where('is_visible', 1);
 
-        // If you need to filter by brand, make sure $brand is defined or remove this line
-        // $query->where('brand_id', $brand->id);
-
         // Fetch products with applied filters and pagination
         $products = $query->paginate($perPage)->withQueryString();
 
-        return view('site.products.products', compact('products'));
+        return view('site.products.products', compact('products', 'category'));
     }
 
 }

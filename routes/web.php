@@ -17,6 +17,8 @@ use App\Http\Controllers\Admin\{
     CouponController,
     ContactUsController,
     UsersController,
+    FilterAttributeController,
+    FilterAttributeValueController,
 };
 
 use App\Http\Controllers\Site\{
@@ -27,6 +29,7 @@ use App\Http\Controllers\Site\{
     Checkout,
     UserDashboard,
     SearchController,
+    ProductReviewController,
 };
 
 use App\Http\Controllers\LocationController;
@@ -99,6 +102,8 @@ Route::middleware('auth')->group(function () {
         });
     });
 
+    Route::post('/products/{product}/reviews', [ProductReviewController::class, 'store'])->name('reviews.store');
+
 });
 
 // Route::get('/dashboard', function () {
@@ -151,6 +156,10 @@ Route::middleware('auth')->group(function () {
 
                 Route::get('price-edit/{id?}','price_edit')->name('products.price-edit');
                 Route::post('price-edit-process','price_edit_process')->name('products.price-edit-process');
+
+                Route::get('product-video-edit/{id?}','product_video_edit')->name('products.product-video-edit');
+                Route::post('product-video-edit-process','product_video_edit_process')->name('products.product-video-edit-process');
+                Route::get('product-video-delete-process/{id?}','product_video_delete_process')->name('products.product-video-delete-process');
 
                 Route::get('specification-edit/{id?}','specification_edit')->name('products.specification-edit');
                 Route::post('specification-edit-process','specification_edit_process')->name('products.specification-edit-process');
@@ -206,6 +215,19 @@ Route::middleware('auth')->group(function () {
         });
 
         Route::resource('contact-us', ContactUsController::class);
+
+        Route::resource('filter-attributes', FilterAttributeController::class);
+    
+        // Filter Attribute Values
+        Route::controller(FilterAttributeValueController::class)->group( function() {
+            Route::get('filter-attributes/{filter_attribute}/values', 'index')->name('filter-attribute-values.index');
+            Route::post('filter-attributes/{filter_attribute}/values', 'store')->name('filter-attribute-values.store');
+            Route::put('filter-attributes/{filter_attribute}/values/{value}', 'update')->name('filter-attribute-values.update');
+            Route::delete('filter-attributes/{filter_attribute}/values/{value}', 'destroy')->name('filter-attribute-values.destroy');
+        });
+        // Category Filter Assignment
+        Route::get('categories/{category}/filter-attributes', 'Admin\CategoryFilterAttributeController@edit')->name('categories.filter-attributes.edit');
+        Route::put('categories/{category}/filter-attributes', 'Admin\CategoryFilterAttributeController@update')->name('categories.filter-attributes.update');
     });
 
 });

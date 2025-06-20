@@ -67,6 +67,9 @@
                             @can('Product Show')
                             <li><a href="{{ route('product.index') }}">Products</a></li>
                             @endcan
+                            @can('Product Show')
+                            <li><a href="{{ route('filter-attributes.index') }}">Filter Attributes</a></li>
+                            @endcan
                         </ul>
                     </li>
                     @endcanany

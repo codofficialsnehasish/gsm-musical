@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\Brand;
 use App\Models\ProductVariation;
+use App\Models\ProductVideo;
 use App\Models\ProductVariationOption;
 use App\Models\ProductSpecification;
 use Illuminate\Http\Request;
@@ -179,9 +180,9 @@ class ProductController extends Controller implements HasMiddleware
             }
         }
         if($res == 1){
-            return redirect(route('products.inventory-edit', $request->product_id))->with(['success'=>'Specifications Details Updated Successfully']);
+            return redirect(route('products.product-video-edit', $request->product_id))->with(['success'=>'Specifications Details Updated Successfully']);
         }elseif($res == 2){
-            return redirect(route('products.inventory-edit', $request->product_id));
+            return redirect(route('products.product-video-edit', $request->product_id));
         }else{
             return redirect()->back()->with(['error'=>'Some error occurs!']);
         }
@@ -192,6 +193,46 @@ class ProductController extends Controller implements HasMiddleware
         if($spec){
             $spec->delete();
             return redirect()->back()->with(['success'=>'Specifications Deleted Successfully']);
+        }
+    }
+
+    public function product_video_edit(Request $request){
+        if(request()->segment(4) == ''){
+			return redirect(route('products.basic-info-create'))->with(['error'=>'Please Fill Basic Information']);
+		}
+        $product = Product::find($request->id);
+        return view('admin.products.product_video_edit',compact('product'));
+    }
+
+    public function product_video_edit_process(Request $request){
+        $res = 2;
+        if(!empty($request->video_link)){
+            foreach($request->video_link as $key => $value){
+                if(empty(trim($value))) {
+                    continue;
+                }
+                $spec = new ProductVideo();
+                $spec->product_id = $request->product_id;
+                $spec->video_link = $value;
+                $spec->is_visible = 1;
+                $spec->save();
+                $res = 1;
+            }
+        }
+        if($res == 1){
+            return redirect(route('products.inventory-edit', $request->product_id))->with(['success'=>'Video Details Updated Successfully']);
+        }elseif($res == 2){
+            return redirect(route('products.inventory-edit', $request->product_id));
+        }else{
+            return redirect()->back()->with(['error'=>'Some error occurs!']);
+        }
+    }
+
+    public function product_video_delete_process($id){
+        $spec = ProductVideo::find($id);
+        if($spec){
+            $spec->delete();
+            return redirect()->back()->with(['success'=>'Video Deleted Successfully']);
         }
     }
 
@@ -220,13 +261,17 @@ class ProductController extends Controller implements HasMiddleware
         }
     }
 
-    public function product_images_edit(Request $request){
-        if(request()->segment(4) == ''){
-			return redirect(route('products.basic-info-create'))->with('error','Please Fill Basic Information');
-		}
+    public function product_images_edit(Request $request)
+    {
+        if(request()->segment(4) == '') {
+            return redirect(route('products.basic-info-create'))->with('error','Please Fill Basic Information');
+        }
+        
         $product = Product::find($request->id);
         $product_images = $product->getMedia('products-media');
-        return view('admin.products.product_images_edit',compact('product','product_images'));
+        $variations = $product->variations()->with('options')->get();
+        
+        return view('admin.products.product_images_edit', compact('product', 'product_images', 'variations'));
     }
 
     public function product_images_process(Request $request){
@@ -238,42 +283,41 @@ class ProductController extends Controller implements HasMiddleware
      */
     public function productGalleryStore(Request $request)
     {
-      
         $validator = Validator::make($request->all(), [
             'file' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
-        ], [
-            'file.required' => 'Please upload an image file.',
-            'file.image' => 'The file must be an image.',
-            'file.mimes' => 'The file must be a type of: jpeg, png, jpg, gif, svg, webp.',
-            'file.max' => 'The file size must not exceed 2MB.',
         ]);
-    
+
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
         if ($request->hasFile('file')) {
-
             $file = $request->file('file');
-
-            // Retrieve the Service model
             $product = Product::findOrFail($request->product_id);
+            
+            // Get variation option info
+            $optionId = $request->option_id ?? 0;
+            $optionName = 'Default';
+            
+            if ($optionId) {
+                $option = ProductVariationOption::find($optionId);
+                $optionName = $option ? $option->variation_name : 'Default';
+            }
 
-            // Add the file to Spatie Media Library
             $media = $product
                 ->addMedia($file)
+                ->withCustomProperties([
+                    'file_id' => $request->file_id,
+                    'option_id' => $optionId,
+                    'option_name' => $optionName,
+                    'is_main' => false
+                ])
                 ->toMediaCollection('products-media');
-
-            // Associate the custom file ID
-            $media->setCustomProperty('file_id', $request->file_id);
-            $media->save();
 
             return response()->json(['success' => 'File uploaded successfully!']);
         }
+        
         return response()->json(['error' => 'File not uploaded!'], 500);
-    
-        // return response()->json(['paths' => $filepath, 'message' => 'Images uploaded successfully']);
-
     }
     /**
      * Store a newly created resource in storage.
@@ -281,26 +325,31 @@ class ProductController extends Controller implements HasMiddleware
     public function productTempImages(Request $request)
     {
         $file_id = $request->file_id;
-		$product_id = $request->product_id;
+        $product_id = $request->product_id;
 
         $product = Product::find($product_id);
         $mediaItems = $product->getMedia('products-media');
         $media = $mediaItems->firstWhere('custom_properties.file_id', $file_id);
         
         if ($media) {
+            $optionId = $media->getCustomProperty('option_id', 0);
+            $optionName = $media->getCustomProperty('option_name', 'Default');
+            
             $html = '<img src="' . $media->getUrl() . '" alt="">' .
                 '<a href="javascript:void(0)" class="btn-img-delete btn-delete-product-img" data-file-id="' . $media->getCustomProperty('file_id') . '" data-bs-toggle="tooltip" data-bs-placement="top" title="Remove this Item"><i class="fa fa-trash-o text-light"></i></a>';
-    
+            if ($media->getCustomProperty('option_id')){
+                $html .= '<span class="badge bg-info option-badge" style="z-index:99999999;">'. $media->getCustomProperty('option_name').'</span>';
+            }
             // Check if this is the main image
             if ($media->getCustomProperty('is_main', false)) {
                 $html .= '<a href="javascript:void(0)" class="float-start btn btn-success btn-sm waves-effect btn-set-image-main" style="padding: 0 4px;" data-file-id="' . $media->getCustomProperty('file_id') . '">Main</a>';
             } else {
                 $html .= '<a href="javascript:void(0)" class="float-start btn btn-secondary btn-sm waves-effect btn-set-image-main" style="padding: 0 4px;" data-file-id="' . $media->getCustomProperty('file_id') . '">Main</a>';
             }
-    
+
             return response()->json(['html' => $html]);
         }
-    
+
         return response()->json(['error' => 'Media not found.'], 404);
     }
 
@@ -318,17 +367,21 @@ class ProductController extends Controller implements HasMiddleware
         return response()->json('Media Not Found');
     }
 
-    public function set_main_product_image(Request $request){
+    public function set_main_product_image(Request $request)
+    {
         $file_id = $request->file_id;
         $product_id = $request->product_id;
+        $option_id = $request->option_id ?? 0;
 
-        // Fetch the product
         $product = Product::findOrFail($product_id);
-
-        // Reset 'is_main' for all images in the gallery
         $mediaItems = $product->getMedia('products-media');
+
+        // Reset 'is_main' for all images in the same option group
         foreach ($mediaItems as $media) {
-            $media->setCustomProperty('is_main', false)->save();
+            // $mediaOptionId = $media->getCustomProperty('option_id', 0);
+            // if ($mediaOptionId == $option_id) {
+                $media->setCustomProperty('is_main', false)->save();
+            // }
         }
 
         // Set 'is_main' for the selected file
@@ -340,14 +393,21 @@ class ProductController extends Controller implements HasMiddleware
         // Generate HTML for all media items
         $html = '';
         foreach ($mediaItems as $media) {
-            $html .= '<li class="media" id="uploaderFile' . $media->getCustomProperty('file_id') . '">
-                        <img src="' . $media->getUrl() . '" alt="">' .
+            $optionId = $media->getCustomProperty('option_id', 0);
+            $optionName = $media->getCustomProperty('option_name', 'Default');
+            
+            $html .= '<li class="media" id="uploaderFile' . $media->getCustomProperty('file_id') . '" data-option-id="' . $optionId . '">' .
+                        '<img src="' . $media->getUrl() . '" alt="">' .
                         '<a href="javascript:void(0)" class="btn-img-delete btn-delete-product-img" data-file-id="' . $media->getCustomProperty('file_id') . '" data-bs-toggle="tooltip" data-bs-placement="top" title="Remove this Item"><i class="fa fa-trash-o text-light"></i></a>';
-            if ($media->getCustomProperty('is_main')) {
-                $html .= '<a href="javascript:void(0)" class="float-start btn btn-success btn-sm waves-effect btn-set-image-main" style="padding-bottom: 0px;padding-top: 0px;padding-right: 4px;padding-left: 4px;" data-file-id="' . $media->getCustomProperty('file_id') . '">Main</a>';
-            } else {
-                $html .= '<a href="javascript:void(0)" class="float-start btn btn-secondary btn-sm waves-effect btn-set-image-main" style="padding-bottom: 0px;padding-top: 0px;padding-right: 4px;padding-left: 4px;" data-file-id="' . $media->getCustomProperty('file_id') . '">Main</a>';
+            if ($media->getCustomProperty('option_id')){
+                $html .= '<span class="badge bg-info option-badge" style="z-index:99999999;">'. $media->getCustomProperty('option_name').'</span>';
             }
+            if ($media->getCustomProperty('is_main')) {
+                $html .= '<a href="javascript:void(0)" class="float-start btn btn-success btn-sm waves-effect btn-set-image-main" style="padding: 0 4px;" data-file-id="' . $media->getCustomProperty('file_id') . '">Main</a>';
+            } else {
+                $html .= '<a href="javascript:void(0)" class="float-start btn btn-secondary btn-sm waves-effect btn-set-image-main" style="padding: 0 4px;" data-file-id="' . $media->getCustomProperty('file_id') . '">Main</a>';
+            }
+            
             $html .= '</li>';
         }
 

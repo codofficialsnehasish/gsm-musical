@@ -12,7 +12,7 @@
                 <ol class="breadcrumb page-breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
                     <li class="breadcrumb-item"><a href="{{ route('product.index') }}">Products</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Edit Specification</li>
+                    <li class="breadcrumb-item active" aria-current="page">Edit Video</li>
                 </ol>
             </div>
             <ul class="nav nav-tabs page-header-tab">
@@ -22,7 +22,7 @@
     </div>
 </div>
 
-<form action="{{ route('products.specification-edit-process') }}" method="post" enctype="multipart/form-data">
+<form action="{{ route('products.product-video-edit-process') }}" method="post" enctype="multipart/form-data">
     @csrf
     <div class="section-body mt-4">
         <div class="container-fluid">
@@ -38,20 +38,16 @@
                                 <div class="tab-pane active p-3" id="inventory" role="tabpanel">
                                     <table width="100%" cellpadding="5" cellspacing="5" id="table_repeters">
                                         <tr>
-                                            <th width="20%">Title</th>
-                                            <th width="30%">Description</th>
+                                            <th width="30%">Video Link</th>
                                             <th width="4%">Action</th>
                                         </tr>
-                                        @foreach($product->specifications as $spec)
+                                        @foreach($product->video as $spec)
                                         <tr>
                                             <td>
-                                                {{ $spec->title }}
+                                                {!! $spec->video_link !!}
                                             </td>
                                             <td>
-                                                {{ $spec->description }}
-                                            </td>
-                                            <td>
-                                                <a  href="{{ route('products.specification-delete-process',$spec->id) }}" onclick="return confirm('Are You sure?')" class="btn btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Remove this Item"><i class="fa fa-trash-o text-danger"></i></a>
+                                                <a  href="{{ route('products.product-video-delete-process',$spec->id) }}" onclick="return confirm('Are You sure?')" class="btn btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Remove this Item"><i class="fa fa-trash-o text-danger"></i></a>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -61,16 +57,12 @@
 
                                     <table width="100%" cellpadding="5" cellspacing="5" id="table_repeter">
                                         <tr>
-                                            <th width="20%">Title</th>
-                                            <th width="30%">Description</th>
+                                            <th width="30%">Video Link</th>
                                             <th width="4%">&nbsp;</th>
                                         </tr>
                                         <tr>
                                             <td>
-                                                <input type="text" name="title[]" id="title_1" class="form-control"/>
-                                            </td>
-                                            <td>
-                                                <textarea name="description[]" id="description_1" cols="5" rows="3" class="form-control"></textarea>
+                                                <input type="text" name="video_link[]" id="title_1" class="form-control"/>
                                             </td>
                                         </tr>
                                     </table>
@@ -129,14 +121,11 @@
             var row = table.insertRow(rowCount);
             var cell1 = row.insertCell(0);
             var cell2 = row.insertCell(1);
-            var cell3 = row.insertCell(2);
             document.getElementById("cont").value = idty;
             
-            cell1.innerHTML = '<input type="text" name="title[]" id="title_'+idty+'" class="form-control"/>';
-				
-			cell2.innerHTML = '<textarea name="description[]" id="description_'+idty+'" cols="5" rows="3" class="form-control"></textarea>';
+            cell1.innerHTML = '<input type="text" name="video_link[]" id="title_'+idty+'" class="form-control"/>';
                  
-            cell3.innerHTML = "<a  href=\"javascript:;\" class=\"btn btn-sm\" data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"Remove this Item\" onClick=\"deleteRow(this)\"><i class=\"fa fa-trash-o text-danger\"></i></a>";
+            cell2.innerHTML = "<a  href=\"javascript:;\" class=\"btn btn-sm\" data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"Remove this Item\" onClick=\"deleteRow(this)\"><i class=\"fa fa-trash-o text-danger\"></i></a>";
 
 				  
 			document.getElementById("more1").innerHTML = "<a class=\"btn btn-success btn-sm float-end\" href=\"javascript:;\" onClick=\"showMore_edit('field_" + idty + "');\"><i class=\"fa fa-plus\"></i>Add More</a>";

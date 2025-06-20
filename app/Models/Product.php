@@ -45,4 +45,19 @@ class Product extends Model implements HasMedia
     {
         return $this->hasMany(ProductSpecification::class)->orderBy('sort_order');
     }
+
+    public function video()
+    {
+        return $this->hasMany(ProductVideo::class);
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(ProductReview::class);
+    }
+
+    public function filterAttributeValues(): BelongsToMany
+    {
+        return $this->belongsToMany(FilterAttributeValue::class, 'product_filter_attribute_values');
+    }
 }

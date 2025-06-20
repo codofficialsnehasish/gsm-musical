@@ -34,6 +34,14 @@
             </span>
         </a>
     </li>
+        <li class="nav-item">
+        <a class="nav-link {{ request()->segment(3) == 'product-video-edit' ? 'active' : '' }}"  href="{{ route('products.product-video-edit',request()->segment(4)) }}" role="tab">
+            <span class="d-none d-md-block">Video</span>
+            <span class="d-block d-md-none">
+                <i class="mdi mdi-account h5"></i>
+            </span>
+        </a>
+    </li>
     <li class="nav-item">
         <a class="nav-link {{ request()->segment(3) == 'inventory-edit' ? 'active' : '' }}" href="{{ route('products.inventory-edit',request()->segment(4)) }}" role="tab">
             <span class="d-none d-md-block">Inventory</span>

@@ -33,22 +33,29 @@
                     <section class="widget mb-9">
                         <h4 class="headingVII fwEbold text-uppercase mb-6">Filter by price</h4>
                         <!-- filter ranger form -->
-                        <form action="javascript:void(0);" class="filter-ranger-form">
+                        <form id="filterForm" action="{{ route('categories.products', $category->slug) }}" method="GET">
                             <div id="slider-range" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
-                                <div class="ui-slider-range ui-widget-header ui-corner-all" style="left: 0%; width: 66.6667%;"></div>
-                                <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" style="left: 0%;"></span>
-                                <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" style="left: 100%;"></span>
-                            <div class="ui-slider-range ui-widget-header ui-corner-all" style="left: 0%; width: 100%;"></div></div>
-                            <input type="hidden" id="amount1" name="price_rangemin" value="0">
-                            <input type="hidden" id="amount2" name="price_rangemax" value="10000">
-                            <div class="get-results-wrap d-flex justify-content-left flex-column">
-                                <button type="button" class="btn btnTheme btn-shop fwEbold md-round px-3 pt-1 pb-2 text-uppercase" onclick="filterProducts()">Filter</button>
-                                <p id="amount" class="mb-0">Price : ₹0 - ₹10000</p>
+                                <div class="ui-slider-range ui-widget-header ui-corner-all"></div>
+                                <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0"></span>
+                                <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0"></span>
                             </div>
+                            <input type="hidden" id="amount1" name="price_min" value="{{ request('price_min', 0) }}">
+                            <input type="hidden" id="amount2" name="price_max" value="{{ request('price_max', 10000) }}">
+                            <div class="get-results-wrap d-flex justify-content-left flex-column">
+                                <button type="submit" class="btn btnTheme btn-shop fwEbold md-round px-3 pt-1 pb-2 text-uppercase">Filter</button>
+                                <p id="amount" class="mb-0">Price : ₹<span id="min-price">{{ request('price_min', 0) }}</span> - ₹<span id="max-price">{{ request('price_max', 10000) }}</span></p>
+                            </div>
+                            
+                            <!-- Hidden fields to maintain other filters -->
+                            @if(request('sort_by'))
+                                <input type="hidden" name="sort_by" value="{{ request('sort_by') }}">
+                            @endif
+                            @if(request('show'))
+                                <input type="hidden" name="show" value="{{ request('show') }}">
+                            @endif
                         </form>
                     </section>
                     <div id="accordion">
-
                         <!-- Accordion Item: Product Type -->
                         <div class="card">
                             <div class="card-header p-0" id="headingOne">
@@ -58,29 +65,25 @@
                                     </button>
                                 </h5>
                             </div>
-                
+                    
                             <div id="collapseOne" class="collapse show" aria-labelledby="headingOne">
-                       
-                                    <div class="shop_accordian_design">
-                                        <input type="checkbox" id="drum_kits">
-                                        <label for="drum_kits">Electronic Drum Kits</label>
-                                    </div>
-                                    <div class="shop_accordian_design">
-                                        <input type="checkbox" id="midi">
-                                        <label for="midi">Midi Keyboards</label>
-                                    </div>
-                                    <div class="shop_accordian_design">
-                                        <input type="checkbox" id="monitor_speaker">
-                                        <label for="monitor_speaker">Monitor Speakers</label>
-                                    </div>
-                                    <div class="shop_accordian_design">
-                                        <input type="checkbox" id="digital_pianos">
-                                        <label for="digital_pianos">Digital Pianos</label>
-                                    </div>
-                       
+                                <form id="productTypeForm" class="filter-sub-form">
+                                    @php
+                                        $selectedTypes = request('product_types', []);
+                                        $types = ['Electronic Drum Kits', 'Midi Keyboards', 'Monitor Speakers', 'Digital Pianos'];
+                                    @endphp
+                                    
+                                    @foreach($types as $type)
+                                        <div class="shop_accordian_design">
+                                            <input type="checkbox" id="{{ Str::slug($type) }}" name="product_types[]" 
+                                                value="{{ $type }}" {{ in_array($type, $selectedTypes) ? 'checked' : '' }}>
+                                            <label for="{{ Str::slug($type) }}">{{ $type }}</label>
+                                        </div>
+                                    @endforeach
+                                </form>
                             </div>
                         </div>
-                
+                    
                         <!-- Accordion Item: Condition -->
                         <div class="card">
                             <div class="card-header p-0" id="headingTwo">
@@ -90,25 +93,25 @@
                                     </button>
                                 </h5>
                             </div>
-                
+                    
                             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo">
-                           
-                                    <div class="shop_accordian_design">
-                                        <input type="checkbox" id="new">
-                                        <label for="new">New</label>
-                                    </div>
-                                    <div class="shop_accordian_design">
-                                        <input type="checkbox" id="used">
-                                        <label for="used">Used</label>
-                                    </div>
-                                    <div class="shop_accordian_design">
-                                        <input type="checkbox" id="refurbished">
-                                        <label for="refurbished">Refurbished</label>
-                                    </div>
-                             
+                                <form id="conditionForm" class="filter-sub-form">
+                                    @php
+                                        $selectedConditions = request('conditions', []);
+                                        $conditions = ['New', 'Used', 'Refurbished'];
+                                    @endphp
+                                    
+                                    @foreach($conditions as $condition)
+                                        <div class="shop_accordian_design">
+                                            <input type="checkbox" id="{{ Str::slug($condition) }}" name="conditions[]" 
+                                                value="{{ $condition }}" {{ in_array($condition, $selectedConditions) ? 'checked' : '' }}>
+                                            <label for="{{ Str::slug($condition) }}">{{ $condition }}</label>
+                                        </div>
+                                    @endforeach
+                                </form>
                             </div>
                         </div>
-                
+                    
                         <!-- Accordion Item: Shipping Time -->
                         <div class="card">
                             <div class="card-header p-0" id="headingThree">
@@ -118,25 +121,24 @@
                                     </button>
                                 </h5>
                             </div>
-                
+                    
                             <div id="collapseThree" class="collapse" aria-labelledby="headingThree">
-                             
-                                    <div class="shop_accordian_design">
-                                        <input type="checkbox" id="one_day">
-                                        <label for="one_day">1 Day Shipping</label>
-                                    </div>
-                                    <div class="shop_accordian_design">
-                                        <input type="checkbox" id="three_days">
-                                        <label for="three_days">3 Days Shipping</label>
-                                    </div>
-                                    <div class="shop_accordian_design">
-                                        <input type="checkbox" id="week">
-                                        <label for="week">1 Week Shipping</label>
-                                    </div>
-                           
+                                <form id="shippingForm" class="filter-sub-form">
+                                    @php
+                                        $selectedShipping = request('shipping_times', []);
+                                        $shippingOptions = ['1 Day Shipping', '3 Days Shipping', '1 Week Shipping'];
+                                    @endphp
+                                    
+                                    @foreach($shippingOptions as $option)
+                                        <div class="shop_accordian_design">
+                                            <input type="checkbox" id="{{ Str::slug($option) }}" name="shipping_times[]" 
+                                                value="{{ $option }}" {{ in_array($option, $selectedShipping) ? 'checked' : '' }}>
+                                            <label for="{{ Str::slug($option) }}">{{ $option }}</label>
+                                        </div>
+                                    @endforeach
+                                </form>
                             </div>
                         </div>
-                
                     </div>
                 </div>
                 <div class="col-lg-10 col-md-9">

@@ -15,7 +15,7 @@
              'use strict';
 
              var Modernizr = window.Modernizr;
-
+ 
              //1. Plugin constructor
              function GlassCase(element, options) {
                  var gcBase = this;

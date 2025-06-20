@@ -2324,7 +2324,7 @@ margin-bottom: 10px;
 	font-weight: 700;
 }
 .input-area {
-  float: left;
+  /* float: left; */
   margin-bottom: 18px;
   width: 100%;
 }
