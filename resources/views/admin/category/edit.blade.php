@@ -100,6 +100,7 @@
                             </div>
                         </div>
                     </div>
+                    @include('admin.category.filter-attributes', ['category' => $category])
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Save & Publish</h3>

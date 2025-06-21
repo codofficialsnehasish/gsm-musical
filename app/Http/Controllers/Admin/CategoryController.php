@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
 use App\Models\Category;
+use App\Models\FilterAttribute;
 use Illuminate\Http\Request;
 
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -83,11 +84,14 @@ class CategoryController extends Controller implements HasMiddleware
     {
         $category = Category::find($id);
         $categorys = Category::where('parent_id',null)->get();
-        return view('admin.category.edit',compact('category','categorys'));
+        $attributes = FilterAttribute::with(['values'])->get();
+        return view('admin.category.edit',compact('category','categorys','attributes'));
     }
 
     public function update(Request $request, string $id)
     {
+        // return $request->all();
+        // return $request->get('attributes');
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
             'slug' => 'nullable|max:255',
@@ -119,7 +123,23 @@ class CategoryController extends Controller implements HasMiddleware
         $category->is_popular = $request->is_popular;
         $category->is_menu = $request->is_menu;
         $category->is_special = $request->is_special;
-        $res = $category->update();
+
+        // Sync filter attributes with sort order
+        if ($request->has('attributes')) {
+            // Convert to collection and add explicit indexes
+            // print_r($request->attributes);die;
+            $attributesWithOrder = collect($request->get('attributes'))
+                ->values() // Ensure we have sequential numeric keys
+                ->mapWithKeys(function ($attributeId, $index) {
+                    return [$attributeId => ['sort_order' => $index + 1]];
+                });
+            // return $attributesWithOrder->all();
+            $category->filterAttributes()->sync($attributesWithOrder->all());
+        } else {
+            $category->filterAttributes()->detach();
+        }
+
+        $res = $category->save();
         if($res){
             return redirect()->back()->with('success','Category Updated Successfully');
         }else{

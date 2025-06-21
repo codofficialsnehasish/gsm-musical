@@ -11,13 +11,15 @@ class CategoryFilterAttributeController extends Controller
 {
     public function edit(Category $category)
     {
+        // Debugging - check if category is loaded
+        \Log::info('Category ID: '.$category->id);
         $attributes = FilterAttribute::with(['values'])->get();
         $assignedAttributes = $category->filterAttributes()
             ->withPivot('sort_order')
             ->orderBy('sort_order')
             ->get();
             
-        return view('admin.categories.filter-attributes', compact('category', 'attributes', 'assignedAttributes'));
+        return view('admin.category.filter-attributes', compact('category', 'attributes', 'assignedAttributes'));
     }
 
     public function update(Request $request, Category $category)

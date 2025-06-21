@@ -98,6 +98,45 @@
                             </div>
                         </div>
                     </div>
+
+                    @if($product->categories)
+                        <div class="card shadow mt-4">
+                            <div class="card-header">
+                                <h3 class="card-title">Filter Attributes</h3>
+                                <div class="card-options ">
+                                    <a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
+                                    <a href="#" class="card-options-remove" data-toggle="card-remove"><i class="fe fe-x"></i></a>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                @foreach($product->categories as $category)
+                                    @foreach($category->filterAttributes as $attribute)
+                                    <div class="form-group mb-4">
+                                        <label><b>{{ $attribute->name }}</b></label>
+                                        
+                                        <div class="row">
+                                            @foreach($attribute->values as $value)
+                                            <div class="col-md-12 mb-2">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" 
+                                                        class="custom-control-input" 
+                                                        id="value_{{ $value->id }}" 
+                                                        name="attribute_values[]" 
+                                                        value="{{ $value->id }}"
+                                                        {{ $product->filterAttributeValues->contains($value) ? 'checked' : '' }}>
+                                                    <label class="custom-control-label" for="value_{{ $value->id }}">
+                                                        {{ $value->value }}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Save & Publish</h3>

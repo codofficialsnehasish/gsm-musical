@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Create Filter Attribute')
+@section('title', 'Edit Filter Attribute')
 
 @section('content')
 
@@ -13,7 +13,7 @@
                     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
                     <li class="breadcrumb-item" aria-current="page">Product Management</li>
                     <li class="breadcrumb-item" aria-current="page">Filter Attributes</li>
-                    <li class="breadcrumb-item active" aria-current="page">Create Filter Attributes</li>
+                    <li class="breadcrumb-item active" aria-current="page">Edit Filter Attributes</li>
                 </ol>
             </div>
             <ul class="nav nav-tabs page-header-tab">
@@ -28,8 +28,9 @@
     </div> 
 </div>    
 
-<form action="{{ route('filter-attributes.store') }}" method="post" enctype="multipart/form-data">
+<form action="{{ route('filter-attributes.update',$filter_attribute) }}" method="post" enctype="multipart/form-data">
     @csrf
+    @method('PUT')
     <div class="section-body mt-4">
         <div class="container-fluid">
             <div class="row">
@@ -47,7 +48,7 @@
                                 <div class="form-group">
                                     <label for="name">Attribute Name *</label>
                                     <input type="text" class="form-control @error('name') is-invalid @enderror" 
-                                        id="name" name="name" value="{{ old('name') }}" required>
+                                        id="name" name="name" value="{{ old('name',$filter_attribute->name) }}" required>
                                     @error('name')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -60,7 +61,7 @@
                                 <div class="form-group">
                                     <label for="slug">Slug *</label>
                                     <input type="text" class="form-control @error('slug') is-invalid @enderror" 
-                                        id="slug" name="slug" value="{{ old('slug') }}" required>
+                                        id="slug" name="slug" value="{{ old('slug', $filter_attribute->slug) }}" required>
                                     @error('slug')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>

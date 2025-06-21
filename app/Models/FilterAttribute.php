@@ -13,12 +13,12 @@ class FilterAttribute extends Model
 
     protected $fillable = ['name', 'slug', 'input_type'];
 
-    public function values(): HasMany
+    public function values()
     {
         return $this->hasMany(FilterAttributeValue::class);
     }
 
-    public function categories(): BelongsToMany
+    public function categories()
     {
         return $this->belongsToMany(Category::class, 'category_filter_attributes')
                     ->withPivot('sort_order')

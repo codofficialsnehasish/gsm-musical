@@ -4,6 +4,89 @@
     Shop
 @endsection
 
+@section('style')
+<style>
+    .price-input {
+    width: 100%;
+    display: flex;
+    margin: 30px 0 35px;
+    }
+    .price-input .field {
+    display: flex;
+    width: 100%;
+    height: 45px;
+    align-items: center;
+    }
+    .field input {
+    width: 100%;
+    height: 100%;
+    outline: none;
+    font-size: 19px;
+    margin-left: 12px;
+    border-radius: 5px;
+    text-align: center;
+    border: 1px solid #999;
+    -moz-appearance: textfield;
+    }
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    }
+    .price-input .separator {
+    width: 130px;
+    display: flex;
+    font-size: 19px;
+    align-items: center;
+    justify-content: center;
+    }
+    .slider {
+    height: 5px;
+    position: relative;
+    background: #ddd;
+    border-radius: 5px;
+    }
+    .slider .progress {
+    height: 100%;
+    left: 25%;
+    right: 25%;
+    position: absolute;
+    border-radius: 5px;
+    background: #17a2b8;
+    }
+    .range-input {
+    position: relative;
+    }
+    .range-input input {
+    position: absolute;
+    width: 100%;
+    height: 5px;
+    top: -5px;
+    background: none;
+    pointer-events: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+    height: 17px;
+    width: 17px;
+    border-radius: 50%;
+    background: #17a2b8;
+    pointer-events: auto;
+    -webkit-appearance: none;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
+    }
+    input[type="range"]::-moz-range-thumb {
+    height: 17px;
+    width: 17px;
+    border: none;
+    border-radius: 50%;
+    background: #17a2b8;
+    pointer-events: auto;
+    -moz-appearance: none;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
+    }
+</style>
+@endsection
 @section('content')
 
     <!-- Page item Area -->
@@ -29,7 +112,7 @@
     <div class="shop_page_area">
         <div class="container">
             <div class="row">
-                <div class="col-lg-2 col-md-3">
+                {{-- <div class="col-lg-2 col-md-3">
                     <section class="widget mb-9">
                         <h4 class="headingVII fwEbold text-uppercase mb-6">Filter by price</h4>
                         <!-- filter ranger form -->
@@ -140,7 +223,64 @@
                             </div>
                         </div>
                     </div>
+                </div> --}}
+                @php
+                    $category = $category ?? null;
+                @endphp
+                @if($category && $category->slug)
+                <div class="col-lg-2 col-md-3">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5>Filters</h5>
+                        </div>
+                        <div class="card-body">
+                            <form action="{{ route('categories.products', $category->slug) }}" method="GET">
+                                <div class="price-input">
+                                    <div class="field">
+                                        <span>Min</span>
+                                        <input type="number" class="input-min" name="price_min" value="{{ request('price_min', 100) }}">
+                                    </div>
+                                    <div class="separator">-</div>
+                                    <div class="field">
+                                        <span>Max</span>
+                                        <input type="number" class="input-max" name="price_max" value="{{ request('price_max', 100000) }}">
+                                    </div>
+                                </div>
+                                <div class="slider">
+                                    <div class="progress"></div>
+                                </div>
+                                <div class="range-input">
+                                    <input type="range" class="range-min" min="0" max="10000" value="{{ request('price_min', 100) }}" step="100">
+                                    <input type="range" class="range-max" min="0" max="10000" value="{{ request('price_max', 100000) }}" step="100">
+                                </div>
+                                @foreach($category->filterAttributes as $attribute)
+                                <div class="filter-group mb-4 mt-4">
+                                    <h6>{{ $attribute->name }}</h6>
+                                        @foreach($attribute->values as $value)
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" 
+                                                class="custom-control-input" 
+                                                id="filter_{{ $attribute->id }}_{{ $value->id }}"
+                                                name="filters[{{ $attribute->id }}][]" 
+                                                value="{{ $value->value }}"
+                                                {{ in_array($value->value, (array)request('filters.'.$attribute->id)) ? 'checked' : '' }}>
+                                            <label class="custom-control-label" for="filter_{{ $attribute->id }}_{{ $value->id }}">
+                                                {{ $value->value }}
+                                            </label>
+                                        </div>
+                                        @endforeach
+                                </div>
+                                @endforeach
+                                
+                                <button type="submit" class="btn btn-primary btn-block mt-3">Apply Filters</button>
+                                <a href="{{ route('categories.products', $category->slug) }}" class="btn btn-outline-secondary btn-block mt-2">
+                                    Reset Filters
+                                </a>
+                            </form>
+                        </div>
+                    </div>
                 </div>
+                @endif
                 <div class="col-lg-10 col-md-9">
                     <div class="shop_bar_tp fix">
                         <form method="GET" id="filterForm">
@@ -274,5 +414,63 @@
 
         </div>
     </div>
+
+@endsection
+
+@section('script')
+<script>
+    const rangeInput = document.querySelectorAll(".range-input input"),
+        priceInput = document.querySelectorAll(".price-input input"),
+        range = document.querySelector(".slider .progress");
+
+    let priceGap = 1000;
+
+    // Event listeners for price input
+    priceInput.forEach((input) => {
+        input.addEventListener("input", (e) => {
+            let minPrice = parseInt(priceInput[0].value),
+                maxPrice = parseInt(priceInput[1].value);
+
+            if (maxPrice - minPrice >= priceGap && maxPrice <= rangeInput[1].max) {
+                if (e.target.classList.contains("input-min")) {
+                    rangeInput[0].value = minPrice;
+                    range.style.left = (minPrice / rangeInput[0].max) * 100 + "%";
+                } else {
+                    rangeInput[1].value = maxPrice;
+                    range.style.right = 100 - (maxPrice / rangeInput[1].max) * 100 + "%";
+                }
+            }
+        });
+    });
+
+    // Event listeners for range sliders
+    rangeInput.forEach((input) => {
+        input.addEventListener("input", (e) => {
+            let minVal = parseInt(rangeInput[0].value),
+                maxVal = parseInt(rangeInput[1].value);
+
+            if (maxVal - minVal < priceGap) {
+                if (e.target.classList.contains("range-min")) {
+                    rangeInput[0].value = maxVal - priceGap;
+                } else {
+                    rangeInput[1].value = minVal + priceGap;
+                }
+            } else {
+                priceInput[0].value = minVal;
+                priceInput[1].value = maxVal;
+                range.style.left = (minVal / rangeInput[0].max) * 100 + "%";
+                range.style.right = 100 - (maxVal / rangeInput[1].max) * 100 + "%";
+            }
+        });
+    });
+
+    // 🔥 Set initial slider progress on page load
+    window.addEventListener("DOMContentLoaded", () => {
+        const minVal = parseInt(rangeInput[0].value);
+        const maxVal = parseInt(rangeInput[1].value);
+        range.style.left = (minVal / rangeInput[0].max) * 100 + "%";
+        range.style.right = 100 - (maxVal / rangeInput[1].max) * 100 + "%";
+    });
+</script>
 
 @endsection

@@ -13,12 +13,12 @@ class FilterAttributeValue extends Model
 
     protected $fillable = ['filter_attribute_id', 'value'];
 
-    public function attribute(): BelongsTo
+    public function attribute()
     {
         return $this->belongsTo(FilterAttribute::class, 'filter_attribute_id');
     }
 
-    public function products(): BelongsToMany
+    public function products()
     {
         return $this->belongsToMany(Product::class, 'product_filter_attribute_values');
     }

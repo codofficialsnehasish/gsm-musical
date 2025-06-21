@@ -3,48 +3,68 @@
 @section('title','Filter Attributes Values')
 
 @section('content')
-<div class="container-fluid">
-    <div class="card shadow mb-4">
-        <div class="card-header py-3 d-flex justify-content-between align-items-center">
-            <h6 class="m-0 font-weight-bold text-primary">
-                Values for: {{ $filter_attribute->name }}
-            </h6>
-            <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addValueModal">
-                <i class="fas fa-plus"></i> Add Value
-            </button>
+
+<div class="section-body">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="header-action">
+                <h1 class="page-title">Values for: {{ $filter_attribute->name }}</h1>
+                <ol class="breadcrumb page-breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+                    <li class="breadcrumb-item" aria-current="page">Product Management</li>
+                    <li class="breadcrumb-item"><a href="{{ route('filter-attributes.index') }}">Filter Attributes</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Filter Attribute Values</li>
+                </ol>
+            </div>
+            <ul class="nav nav-tabs page-header-tab">
+                <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addValueModal">
+                    <i class="fa fa-plus"></i> Add Value
+                </button>
+            </ul>
         </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th>Value</th>
-                            <th>Created At</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($values as $value)
-                        <tr>
-                            <td>{{ $value->value }}</td>
-                            <td>{{ $value->created_at->format('Y-m-d') }}</td>
-                            <td>
-                                <button class="btn btn-sm btn-primary edit-value-btn" 
-                                        data-id="{{ $value->id }}" 
-                                        data-value="{{ $value->value }}">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <form action="{{ route('filter-attribute-values.destroy', [$filter_attribute, $value]) }}" method="POST" class="d-inline">
-                                    @csrf @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+    </div> 
+</div>
+
+<div class="section-body mt-4">
+    <div class="container-fluid">
+        <div class="tab-content">
+            <div class="tab-pane active" id="Student-all">
+                <div class="card mt-4">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover js-basic-example dataTable table-striped table_custom border-style spacing5">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Value</th>
+                                        <th>Created At</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($values as $value)
+                                    <tr>
+                                        <td>{{ $value->value }}</td>
+                                        <td>{{ $value->created_at->format('Y-m-d') }}</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary edit-value-btn" 
+                                                    data-id="{{ $value->id }}" 
+                                                    data-value="{{ $value->value }}">
+                                                <i class="fa fa-edit"></i>
+                                            </button>
+                                            <form action="{{ route('filter-attribute-values.destroy', [$filter_attribute, $value]) }}" method="POST" class="d-inline">
+                                                @csrf @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -105,7 +125,7 @@
 </div>
 @endsection
 
-@section('scripts')
+@section('script')
 <script>
 $(document).ready(function() {
     $('.edit-value-btn').click(function() {

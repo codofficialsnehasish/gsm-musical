@@ -50,19 +50,18 @@ class FilterAttributeController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'slug' => 'required|string|max:255|unique:filter_attributes,slug,'.$filter_attribute->id,
-            'input_type' => 'required|in:checkbox,radio,range'
         ]);
 
         $filter_attribute->update($validated);
 
-        return redirect()->route('admin.filter-attributes.index')
+        return redirect()->route('filter-attributes.index')
             ->with('success', 'Filter attribute updated successfully');
     }
 
     public function destroy(FilterAttribute $filter_attribute)
     {
         $filter_attribute->delete();
-        return redirect()->route('admin.filter-attributes.index')
+        return redirect()->route('filter-attributes.index')
             ->with('success', 'Filter attribute deleted successfully');
     }
 }

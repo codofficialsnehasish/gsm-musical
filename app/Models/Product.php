@@ -56,7 +56,7 @@ class Product extends Model implements HasMedia
         return $this->hasMany(ProductReview::class);
     }
 
-    public function filterAttributeValues(): BelongsToMany
+    public function filterAttributeValues()
     {
         return $this->belongsToMany(FilterAttributeValue::class, 'product_filter_attribute_values');
     }

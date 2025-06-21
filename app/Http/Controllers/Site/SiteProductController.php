@@ -260,7 +260,7 @@ class SiteProductController extends Controller
 
     public function products_by_category(Request $request, string $slug)
     {
-        $category = Category::where('slug', $slug)->first();
+        $category = Category::with('filterAttributes.values')->where('slug', $slug)->first();
 
         if (!$category) {
             return back()->with('error', 'No Data Found');
@@ -268,33 +268,34 @@ class SiteProductController extends Controller
 
         $query = Product::query();
 
-        // Filter products by category (Many-to-Many relationship)
+        // Filter products by category
         $query->whereHas('categories', function ($q) use ($category) {
             $q->where('categories.id', $category->id);
         });
 
         // Price Range Filter
         if ($request->has('price_min') && $request->has('price_max')) {
-            $query->whereBetween('price', [
+            $query->whereBetween('total_price', [
                 $request->price_min,
                 $request->price_max
             ]);
         }
 
-        // Product Type Filter (assuming you have a 'product_type' column or relationship)
-        if ($request->has('product_types')) {
-            $query->whereIn('product_type', $request->product_types);
+        // Dynamic Filter Attributes
+        if ($request->has('filters')) {
+            $query->where(function($q) use ($request) {
+                foreach ($request->filters as $attributeId => $values) {
+                    if (!empty($values)) {
+                        $q->orWhereHas('filterAttributeValues', function($q) use ($attributeId, $values) {
+                            $q->where('filter_attribute_id', $attributeId)
+                            ->whereIn('value', (array)$values);
+                        });
+                    }
+                }
+            });
         }
 
-        // Condition Filter
-        if ($request->has('conditions')) {
-            $query->whereIn('condition', $request->conditions);
-        }
-
-        // Shipping Time Filter
-        // if ($request->has('shipping_times')) {
-        //     $query->whereIn('shipping_time', $request->shipping_times);
-        // }
+        // dd($query->toSql(), $query->getBindings());
 
         // Sorting Logic
         if ($request->has('sort_by')) {
@@ -313,12 +314,9 @@ class SiteProductController extends Controller
             }
         }
 
-        // Pagination Limit (Default: 4 products per page)
+        // Pagination
         $perPage = $request->input('show', 4);
-
         $query->where('is_visible', 1);
-
-        // Fetch products with applied filters and pagination
         $products = $query->paginate($perPage)->withQueryString();
 
         return view('site.products.products', compact('products', 'category'));

@@ -33,7 +33,7 @@ class Category extends Model implements HasMedia
         return $this->belongsToMany(Product::class, 'product_categories', 'category_id', 'product_id');
     }
 
-    public function filterAttributes(): BelongsToMany
+    public function filterAttributes()
     {
         return $this->belongsToMany(FilterAttribute::class, 'category_filter_attributes')
                     ->withPivot('sort_order')

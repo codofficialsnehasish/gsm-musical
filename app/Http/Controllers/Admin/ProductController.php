@@ -73,6 +73,7 @@ class ProductController extends Controller implements HasMiddleware
         if ($request->has('categories')) {  
             $product->categories()->sync($request->categories);
         }
+        
 
         if($res){
             if($product->product_type == 'simple'){
@@ -112,6 +113,10 @@ class ProductController extends Controller implements HasMiddleware
 
         if ($request->has('categories')) {  
             $product->categories()->sync($request->categories);
+        }
+
+        if ($request->has('attribute_values')) {
+            $product->filterAttributeValues()->sync($request->attribute_values);
         }
 
         if($res){

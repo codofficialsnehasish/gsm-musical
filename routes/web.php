@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\{
     UsersController,
     FilterAttributeController,
     FilterAttributeValueController,
+    CategoryFilterAttributeController
 };
 
 use App\Http\Controllers\Site\{
@@ -226,8 +227,8 @@ Route::middleware('auth')->group(function () {
             Route::delete('filter-attributes/{filter_attribute}/values/{value}', 'destroy')->name('filter-attribute-values.destroy');
         });
         // Category Filter Assignment
-        Route::get('categories/{category}/filter-attributes', 'Admin\CategoryFilterAttributeController@edit')->name('categories.filter-attributes.edit');
-        Route::put('categories/{category}/filter-attributes', 'Admin\CategoryFilterAttributeController@update')->name('categories.filter-attributes.update');
+        Route::get('categories/{category}/filter-attributes', [CategoryFilterAttributeController::class,'edit'])->name('admin.categories.filter-attributes.edit');
+        Route::put('categories/{category}/filter-attributes', [CategoryFilterAttributeController::class,'update'])->name('admin.categories.filter-attributes.update');
     });
 
 });
