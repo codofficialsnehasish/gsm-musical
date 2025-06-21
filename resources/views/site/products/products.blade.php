@@ -33,7 +33,7 @@
                     <section class="widget mb-9">
                         <h4 class="headingVII fwEbold text-uppercase mb-6">Filter by price</h4>
                         <!-- filter ranger form -->
-                        <form id="filterForm" action="{{ route('categories.products', $category->slug) }}" method="GET">
+                        <form id="filterForm" action="" method="GET">
                             <div id="slider-range" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
                                 <div class="ui-slider-range ui-widget-header ui-corner-all"></div>
                                 <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0"></span>
@@ -196,7 +196,7 @@
                                         <div class="product_image">
                                             <a href="{{ route('product.details',$product->slug) }}">
                                                 <img src="{{ getProductMainImage($product->id) }}" alt="" />
-                                                <div class="new_badge">New</div>
+                                                {{-- <div class="new_badge">New</div> --}}
                                               
                                             </a>
                                             <a href="javascript:void(0)" class="add-to-wishlist new_badge1"
@@ -210,9 +210,7 @@
                                         </div>
 
                                         <div class="product_btm_text">
-                                            <h4><a
-                                                    href="{{ route('product.details', $product->slug) }}">{{ $product->name }}</a>
-                                            </h4>
+                                            <h4><a href="{{ route('product.details', $product->slug) }}">{{ $product->name }}</a></h4>
                                             <div class="p_rating">
                                                 <i class="fa fa-star"></i>
                                                 <i class="fa fa-star"></i>
@@ -221,7 +219,7 @@
                                                 <i class="fa fa-star"></i>
                                             </div>
                                             <p class="price">Rs {{ $product->total_price }}</p>
-                                            <button><i class="fa-solid fa-cart-shopping"></i></button>
+                                            <button><i class="fa-solid fa-cart-shopping add-to-cart-btn" data-product-id="{{ $product->id }}"></i></button>
                                         </div>
                                     </div>
                                 </div>

@@ -64,7 +64,7 @@
                 <div class="col-md-3 col-sm-6">
                     <div class="single_product" style="min-height: 250px !important;">
                         <div class="product_image">
-                            <img src="{{ $category->getFirstMediaUrl('category') }}" alt=""/>    
+                            <a href="{{ route('categories.products', $category->slug) }}"><img src="{{ $category->getFirstMediaUrl('category') }}" alt=""/></a>    
                          
 
                         </div>

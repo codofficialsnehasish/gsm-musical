@@ -154,7 +154,7 @@ class Checkout extends Controller
     }
 
     protected function place_order(string $payment_method=null, $razorpay_payment_id = null){
-        $cart_items = Cart::where('user_id', Auth::id())->get();
+        $cart_items = Cart::where('user_id', (string) Auth::id())->get();
         if($cart_items){
 
             $cart_sub_total = calculate_cart_sub_total_by_userId(Auth::id());
@@ -232,7 +232,7 @@ class Checkout extends Controller
             }
 
             //clear cart
-            $cart_items = Cart::where('user_id', Auth::id())->delete();
+            $cart_items = Cart::where('user_id', (string) Auth::id())->delete();
             session()->forget('applied_coupon'); 
         }
     }

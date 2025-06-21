@@ -173,81 +173,6 @@
                     </a>
                 </div>
 
-                <div class="col-xs-7 col-sm-7 col-7 col-md-3 d-md-none d-lg-none d-sm-flex">
-                    <div class="right_menu">
-                        <ul class="nav justify-content-end hdr_tp_right text-right">
-                            <li class="lan_area">
-                                <a href="javascript:void(0);">
-                                    <i class="fa fa-lock"></i>
-                                    <span>My Account</span>
-                                </a>
-                                <ul class="csub-menu">
-                                    @auth
-                                        <li><a href="{{ route('user-dashboard.profile') }}">Profile</a></li>
-                                        <form method="POST" action="{{ route('logout') }}" style="display: inline;">
-                                            @csrf
-                                            <li>
-                                                <a href="{{ route('logout') }}"
-                                                    onclick="event.preventDefault(); this.closest('form').submit();">
-                                                    Logout
-                                                </a>
-                                            </li>
-                                        </form>
-                                    @else
-                                        <li><a class="text-dark" href="{{ route('login') }}">Login</a></li>
-                                        <li><a class="text-dark" href="{{ route('register') }}">Register</a></li>
-                                    @endauth
-                                </ul>
-                            </li>
-                            <li>
-                                <div class="cart_menu_area hres">
-                                    <div class="cart_icon">
-                                        <div class="d-flex">
-                                            <a href="{{ route('cart') }}">
-                                                <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>
-                                            </a>
-                                            <div class="d-flex cart_text"
-                                                style="flex-direction: column; margin-left:15px;justify-content: center;">
-                                                <p class="text-light your_cart">Your Cart</p>
-                                                <p id="cart-count" class="text-light cart_design">0</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="mini-cart-wrapper">
-                                        <div class="mc-pro-list fix">
-                                            @foreach (get_cart_items() as $cart_helper_item)
-                                                <div class="mc-sin-pro fix">
-                                                    <a href="{{ route('product.details', $cart_helper_item->product?->slug) }}"
-                                                        class="mc-pro-image float-left">
-                                                        <img src="{{ getProductMainImage($cart_helper_item->product?->id) }}"
-                                                            width="49" height="64" alt="" />
-                                                    </a>
-                                                    <div class="mc-pro-details fix">
-                                                        <a
-                                                            href="{{ route('product.details', $cart_helper_item->product?->slug) }}">
-                                                            {{ $cart_helper_item->product?->name }}
-                                                        </a>
-                                                        <span>{{ $cart_helper_item->quantity }}xRs
-                                                            {{ $cart_helper_item->product?->total_price }}</span>
-                                                        <a class="pro-del" href="#"><i
-                                                                class="fa fa-trash"></i></a>
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                        <div class="mc-subtotal fix">
-                                            <h4>Subtotal <span id="cart-total">Rs 0.00</span></h4>
-                                        </div>
-                                        <div class="mc-button">
-                                            <a href="#" class="checkout_btn">checkout</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
                 <div class="col-xs-7 col-sm-7 col-md-5 col-7 d-none d-md-flex d-lg-flex">
                     <div class="search_warp">
                         <form method="GET" action="{{ route('search') }}" class="form-inline">
@@ -306,7 +231,7 @@
                                             <div class="d-flex cart_text"
                                                 style="flex-direction: column; margin-left:15px;justify-content: center;">
                                                 <p class="text-light your_cart">Your Cart</p>
-                                                <p id="cart-count" class="text-light cart_design">0</p>
+                                                <p id="cart-count" class="text-light cart_design" style="display: none">0</p>
                                             </div>
                                         </div>
                                     </div>

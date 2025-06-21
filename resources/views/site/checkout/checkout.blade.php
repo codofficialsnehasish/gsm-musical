@@ -266,8 +266,9 @@
                                 key: response.key,
                                 amount: response.amount,
                                 currency: 'INR',
-                                name: 'Your Shop',
+                                name: 'GSM MUSICAL',
                                 description: 'Complete your order payment',
+                                image: "{{ asset('assets/site-assets/img/fab.png') }}",
                                 order_id: response.order_id,
                                 prefill: {
                                     name: response.user.name,
@@ -301,7 +302,7 @@
                                     });
                                 },
                                 theme: {
-                                    color: '#F37254'
+                                    color: '#fe0032'
                                 },
                                 modal: {
                                     ondismiss: function () {

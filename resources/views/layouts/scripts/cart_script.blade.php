@@ -44,7 +44,6 @@
             
             // Get the image URL from the selected variation
             const imageUrl = $(this).data('image-url');
-            console.log(imageUrl);
             
             // Update price if available
             selectedVariationId = $(this).data("option-id");
@@ -323,7 +322,7 @@
                 method: 'GET',
                 success: function (response) {
                     if (response.count > 0) {
-                        $('#cart-count').text(response.count).show();
+                        $('#cart-count').text(response.count).css('display', 'inline-block');
                     } else {
                         $('#cart-count').hide();
                     }
@@ -334,63 +333,11 @@
             });
         }
 
-        // function update_mini_cart_wrapper() {
-        //     $.ajax({
-        //         url: "{{ route('cart.cart_products') }}",
-        //         method: 'GET',
-        //         success: function (response) {
-        //             console.log(response);
-        //             let miniCartWrapper = $('.mini-cart-wrapper');
-        //             let miniCartContent = '';
-
-        //             // Iterate through the response to build the cart items
-        //             response.forEach(function (cartItem) {
-        //                 // Extract product details
-        //                 let product = cartItem.product;
-
-        //                 // Add each cart item to the mini-cart
-        //                 miniCartContent += `
-        //                     <div class="mc-sin-pro fix">
-        //                         <a href="/product/details/${product.slug}" class="mc-pro-image float-left">
-        //                             <img src="${product.image_url || '/default-image.jpg'}" width="49" height="64" alt="${product.name}" />
-        //                         </a>
-        //                         <div class="mc-pro-details fix">
-        //                             <a href="/product/details/${product.slug}">${product.name}</a>
-        //                             <span>${cartItem.quantity} x Rs ${(product.price || 0)}</span>
-        //                         </div>
-        //                     </div>`;
-        //             });
-
-        //             // Calculate the subtotal
-        //             let subtotal = response.reduce((total, cartItem) => {
-        //                 let product = cartItem.product;
-        //                 return total + (cartItem.quantity * (product.price || 0));
-        //             }, 0).toFixed(2);
-
-        //             // Add subtotal and checkout button
-        //             miniCartContent += `
-        //                 <div class="mc-subtotal fix">
-        //                     <h4>Subtotal <span id="cart-total">Rs ${subtotal}</span></h4>
-        //                 </div>
-        //                 <div class="mc-button">
-        //                     <a href="/checkout" class="checkout_btn">checkout</a>
-        //                 </div>`;
-
-        //             // Update the mini-cart wrapper
-        //             miniCartWrapper.html(miniCartContent);
-
-        //         },
-        //         error: function () {
-        //             console.error('Failed to fetch cart products.');
-        //         }
-        //     });
-        // }
         function update_mini_cart_wrapper() {
             $.ajax({
                 url: "{{ route('cart.cart_products') }}",
                 method: 'GET',
                 success: function (response) {
-                    console.log(response);
                     let miniCartWrapper = $('.mini-cart-wrapper');
                     let miniCartContent = '';
 

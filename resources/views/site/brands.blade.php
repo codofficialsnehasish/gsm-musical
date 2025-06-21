@@ -64,7 +64,7 @@
                 <div class="col-md-3 col-sm-6">
                     <div class="single_product" style="min-height: 20px !important;padding: 20px;">
                         <div class="product_image">
-                            <img src="{{ $brand->getFirstMediaUrl('brand') }}" alt=""/>                                       
+                            <a href="{{ route('brands.products', $brand->slug) }}"><img src="{{ $brand->getFirstMediaUrl('brand') }}" alt=""/> </a>                                      
                         </div>
         
                         <div class="product_btm_text">

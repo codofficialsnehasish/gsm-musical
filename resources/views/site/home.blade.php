@@ -46,10 +46,12 @@
                     <div id="testimonial-slider2" class="owl-carousel">
                         @foreach ($categorys as $category)
                             <div class="testimonial2">
-                                <div class="pic">
-                                    <img src="{{ $category->getFirstMediaUrl('category') }}" alt="">
-                                    <h3 class="title">{{ $category->name }}</h3>
-                                </div>
+                                <a href="{{ route('categories.products',$category->slug) }}">
+                                    <div class="pic">
+                                        <img src="{{ $category->getFirstMediaUrl('category') }}" alt="">
+                                        <h3 class="title">{{ $category->name }}</h3>
+                                    </div>
+                                </a>
                             </div>
                         @endforeach
                     </div>
@@ -124,7 +126,7 @@
                                     <div class="product_image">
                                         <a href="{{ route('product.details', $products->slug) }}">
                                             <img src="{{ getProductMainImage($products->id) }}" alt="" />
-                                            <div class="new_badge">New</div>
+                                            {{-- <div class="new_badge">New</div> --}}
                                             <a href="javascript:void(0)" class="add-to-wishlist new_badge1"
                                                 data-product-id="{{ $products->id }}"><i class="fa fa-heart-o"></i></a>
 
@@ -168,8 +170,6 @@
     <section id="promo_area" class="section_padding promo_img best_seller">
         <div class="container">
             <div class="row">
-
-                {{-- @if ($categorys->isNotEmpty()) --}}
                 <div class="col-md-12 text-center">
                     <div class="section_title fws">
                         <h2>Best<span>Seller</span></h2>
@@ -177,24 +177,23 @@
                 </div>
 
                 <div id="testimonial-slider3" class="owl-carousel">
-                    {{-- @foreach ($categorys as $category) --}}
+                    @foreach($best_selling_products as $best_product)
                     <div class="testimonial3">
                  
                             <div class="single_product">
                                 <div class="product_image">
-                                    <a href="#">
-                                        <img src="{{ asset('assets/site-assets/img/promo/5.jpg') }}" alt="">
-                                        <div class="new_badge">New</div>
-                                        <a href="javascript:void(0)" class="add-to-wishlist new_badge1"><i
-                                                class="fa fa-heart-o"></i></a>
+                                    <a href="{{ route('product.details', $best_product->slug) }}">
+                                        <img src="{{ getProductMainImage($best_product->id) }}" alt="">
+                                        {{-- <div class="new_badge">New</div> --}}
+                                        <a href="javascript:void(0)" class="add-to-wishlist new_badge1"
+                                                data-product-id="{{ $best_product->id }}"><i class="fa fa-heart-o"></i></a>
 
                                     </a>
 
                                 </div>
 
                                 <div class="product_btm_text">
-                                    <h4><a href="#">Acoustic</a>
-                                    </h4>
+                                    <h4><a href="{{ route('product.details', $best_product->slug) }}">{{ $best_product->name }}</a></h4>
                                     <div class="p_rating">
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
@@ -202,15 +201,16 @@
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
                                     </div>
-                                    <p class="price">Rs 10,000</p>
-                                    <button><i class="fa-solid fa-cart-shopping"></i></button>
+                                    <p class="price">Rs {{ $best_product->total_price }}</p>
+                                    <button><i class="fa-solid fa-cart-shopping add-to-cart-btn" data-product-id="{{ $best_product->id }}"></i></button>
                                 </div>
                             </div>
 
                   
 
                     </div>
-                    <div class="testimonial3">
+                    @endforeach
+                    {{-- <div class="testimonial3">
                    
                             <div class="single_product">
                                 <div class="product_image">
@@ -304,52 +304,8 @@
                             </div>
 
 
-                    </div>
-                    {{-- @endforeach --}}
-                    {{-- <div class="product_item">
-                            <div class="row">
-                                @foreach ($all_products as $products)
-                                    <div
-                                        class="col-lg-3 col-md-4 col-sm-6 mix 
-                                @foreach ($products->categories as $category)
-                                    category-{{ $category->id }} @endforeach ">
-                                        <div class="single_product">
-                                            <div class="product_image">
-                                                <a href="{{ route('product.details', $products->slug) }}">
-                                                    <img src="{{ getProductMainImage($products->id) }}" alt="" />
-                                                    <div class="new_badge">New</div>
-                                                    <a href="javascript:void(0)" class="add-to-wishlist new_badge1"
-                                                        data-product-id="{{ $products->id }}"><i class="fa fa-heart-o"></i></a>
-        
-                                                </a>
-						
-                                            </div>
-        
-                                            <div class="product_btm_text">
-                                                <h4><a
-                                                        href="{{ route('product.details', $products->slug) }}">{{ $products->name }}</a>
-                                                </h4>
-                                                <div class="p_rating">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                </div>
-                                                <p class="price">Rs {{ $products->total_price }}</p>
-                                                <button>Add To Cart</button>
-                                            </div>
-                                        </div>
-        
-                                    </div> 
-                                @endforeach
-        
-                            </div>
-                        </div> --}}
+                    </div> --}}
                 </div>
-                {{-- @endif --}}
-
-
             </div>
         </div>
     </section>
@@ -380,7 +336,7 @@
                     <div class="col-md-12 text-center">
                         <div class="section_title d-flex justify-content-between">
                             <h2>Featured <span> Products</span></h2>
-                            <a href="#" class="btn main_btn">All Products</a>
+                            <a href="{{ route('product.all') }}" class="btn main_btn">All Products</a>
                         </div>
                     </div>
                 </div>
@@ -390,7 +346,7 @@
                         <div class="col-lg-3 col-md-4 col-sm-6 col-6">
                             <div class="single_product">
                                 <div class="product_image">
-                                    <a href="{{ route('product.details', $products->slug) }}">
+                                    <a href="{{ route('product.details', $featured_product->slug) }}">
                                         <img src="{{ getProductMainImage($featured_product->id) }}" alt="" />
                                         <a href="javascript:void(0)" class="add-to-wishlist new_badge1"
                                             data-product-id="{{ $featured_product->id }}"><i
@@ -405,9 +361,7 @@
                                 </div>
 
                                 <div class="product_btm_text">
-                                    <h4><a
-                                            href="{{ route('product.details', $featured_product->slug) }}">{{ $featured_product->name }}</a>
-                                    </h4>
+                                    <h4><a href="{{ route('product.details', $featured_product->slug) }}">{{ $featured_product->name }}</a></h4>
                                     <div class="p_rating">
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
@@ -416,7 +370,7 @@
                                         <i class="fa fa-star"></i>
                                     </div>
                                     <p class="price">Rs {{ $featured_product->total_price }}</p>
-                                    <button><i class="fa-solid fa-cart-shopping"></i></button>
+                                    <button><i class="fa-solid fa-cart-shopping add-to-cart-btn" data-product-id="{{ $featured_product->id }}"></i></button>
                                 </div>
                             </div>
                         </div>

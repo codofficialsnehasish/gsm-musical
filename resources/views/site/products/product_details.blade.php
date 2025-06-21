@@ -469,7 +469,7 @@
                             <div class="product_image">
                                 <a href="{{ route('product.details', $relatedProduct->slug) }}">
                                     <img src="{{ getProductMainImage($relatedProduct->id) }}" alt="" />
-                                    <div class="new_badge">New</div>
+                                    {{-- <div class="new_badge">New</div> --}}
                                     <a href="javascript:void(0)" class="add-to-wishlist new_badge1"
                                     data-product-id="{{ $relatedProduct->id }}"><i class="fa fa-heart-o"></i></a>
                                 </a>
@@ -493,7 +493,7 @@
                                     <i class="fa fa-star"></i>
                                 </div>
                                 <p class="price">Rs {{ $relatedProduct->total_price }}</p>
-                                <button><i class="fa-solid fa-cart-shopping"></i></button>
+                                <button><i class="fa-solid fa-cart-shopping add-to-cart-btn" data-product-id="{{ $relatedProduct->id }}"></i></button>
                             </div>
                         </div>
                     </div> <!-- End Col -->

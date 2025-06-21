@@ -10,6 +10,7 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Testimonial;
 use App\Models\Product;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -26,7 +27,14 @@ class HomeController extends Controller
                                     ->limit(8)
                                     ->orderBy('id','desc')
                                     ->get();
-        return view('site.home',compact('sliders','categorys','brands','testimonials','featured_products','all_products'));
+        $best_selling_products = Product::withCount(['OrderItems as total_sold' => function($query) {
+                                    $query->select(DB::raw('SUM(quantity)'));
+                                }])
+                                ->where('is_visible', 1)
+                                ->orderBy('total_sold', 'DESC')
+                                ->limit(8)
+                                ->get();
+        return view('site.home',compact('sliders','categorys','brands','testimonials','featured_products','all_products','best_selling_products'));
     }
 }
 
